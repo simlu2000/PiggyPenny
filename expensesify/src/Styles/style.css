@@ -118,12 +118,12 @@ td + td, th + th {
 .remove{
   background-color: transparent;
   border:none;
-  color: #93032E;
+  color: #ce0000;
 }
 .edit{
   background-color: transparent;
   border:none;
-  color:#FCAB64;
+  color:#0a7e15;
 }
 .edit-form{
   margin-bottom:5%;

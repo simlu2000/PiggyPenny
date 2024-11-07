@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faThumbsDown, faScaleBalanced, faScaleUnbalanced, faRemove, faEdit, faRectangleXmark, faSave } from "@fortawesome/free-solid-svg-icons";
 import AddExpense from './AddExpense';
-import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 
 const ExpenseList = () => {
@@ -29,13 +28,13 @@ const ExpenseList = () => {
         }
     }, [expenses]);
 
-
+    // Calcolo del saldo totale
     useEffect(() => {
         const balanceTot = expenses.reduce((acc, expense) => acc + expense.amount, 0);
         setBalance(balanceTot);
     }, [expenses]);
 
-
+    // Calcolo del totale delle entrate
     useEffect(() => {
         const RevenueTot = expenses
             .filter((expense) => expense.type === "Revenue")
@@ -43,14 +42,13 @@ const ExpenseList = () => {
         setRevenue(RevenueTot);
     }, [expenses]);
 
-
+    // Calcolo delle uscite
     useEffect(() => {
         const OutflowsTot = expenses
             .filter((expense) => expense.type === "Outflows")
             .reduce((acc, expense) => acc + expense.amount, 0);
         setOutflows(OutflowsTot);
     }, [expenses]);
-
 
     // Funzione per rimuovere spesa
     const handleRemove = (expenseId) => {
@@ -69,14 +67,20 @@ const ExpenseList = () => {
 
     // Funzione per entrare in modalità di modifica
     const handleEdit = (expense) => {
-        setEditedExpense(expense);  // Imposto spesa da modificare
+        setEditedExpense({ ...expense });  // Imposto spesa da modificare (copia dell'oggetto)
         setEditMode(true);  // Attivo modalità di modifica
     };
 
     // Funzione per salvare le modifiche
-    const handleSaveEdit = (updatedExpense) => {
+    const handleSaveEdit = () => {
+        // Verifica se 'editedExpense' ha valori validi
+        if (!editedExpense || !editedExpense.category || !editedExpense.amount) {
+            alert("Please complete all fields.");
+            return;
+        }
+
         const updatedExpenses = expenses.map((expense) =>
-            expense.id === updatedExpense.id ? updatedExpense : expense
+            expense.id === editedExpense.id ? editedExpense : expense
         );
         setExpenses(updatedExpenses);
         setEditMode(false);  // Disattivo la modalità di modifica
@@ -86,17 +90,12 @@ const ExpenseList = () => {
     // Funzione per annullare la modifica
     const handleCancelEdit = () => {
         setEditMode(false);  // Disattivo modifica
-        setEditedExpense(null);  // Resetta spesa n modifica
+        setEditedExpense(null);  // Resetta spesa in modifica
     };
-
-    if (expenses.length === 0) {
-        return <p>No expenses.</p>;
-    }
-
-
 
     return (
         <>
+            {/* Condizione per visualizzare quando non ci sono spese */}
             {expenses.length === 0 ? (
                 <div>
                     <p>No expenses.</p>
@@ -108,15 +107,15 @@ const ExpenseList = () => {
                     <h2 id="text-your" className="title">Your Expenses</h2>
                     <div id="user-situation">
                         <div className="user-container" id="balance">
-                            {balance >= 0 ?
+                            {balance >= 0 ? (
                                 <h3>
                                     <FontAwesomeIcon icon={faScaleBalanced} /> {balance} €
                                 </h3>
-                                :
+                            ) : (
                                 <h3>
                                     <FontAwesomeIcon icon={faScaleUnbalanced} /> -{Math.abs(balance)} €
                                 </h3>
-                            }
+                            )}
                         </div>
                         <div className="user-container" id="revenue">
                             <h3>
@@ -127,17 +126,20 @@ const ExpenseList = () => {
                             <h3>
                                 <FontAwesomeIcon icon={faThumbsDown} /> {Outflows < 0 ? `- ${Math.abs(Outflows)} €` : `${Outflows} €`}
                             </h3>
-
                         </div>
                     </div>
 
                     {/*----------------EDIT MODE----------------*/}
                     {editMode && editedExpense && (
                         <div className="edit-form">
-                            <h2>Edit Expense</h2>
+                            <h2>
+                                Edit Expense
+                                <button className="edit btn-exp" type="button" onClick={handleSaveEdit}><FontAwesomeIcon icon={faSave} /></button>
+                                <button className="remove btn-exp" type="button" onClick={handleCancelEdit}><FontAwesomeIcon icon={faRectangleXmark} /></button>
+                            </h2>
                             <form onSubmit={(e) => {
                                 e.preventDefault();
-                                handleSaveEdit(editedExpense);
+                                handleSaveEdit();
                             }}>
                                 <label>
                                     Category:
@@ -171,8 +173,6 @@ const ExpenseList = () => {
                                         onChange={(e) => setEditedExpense({ ...editedExpense, description: e.target.value })}
                                     />
                                 </label>
-                                <button className="edit btn-exp" type="submit"><FontAwesomeIcon icon={faSave}/></button>
-                                <button className="remove btn-exp" type="button" onClick={handleCancelEdit}><FontAwesomeIcon icon={faRectangleXmark}/></button>
                             </form>
                         </div>
                     )}
@@ -208,7 +208,6 @@ const ExpenseList = () => {
                                         <button className="remove" onClick={() => handleRemove(expense.id)}>
                                             <FontAwesomeIcon icon={faRemove} />
                                         </button>
-
                                     </td>
                                 </tr>
                             ))}
@@ -216,7 +215,6 @@ const ExpenseList = () => {
                     </table>
                 </>
             )}
-
 
             <h2 id="text-add" className="title">Add a new Expense</h2>
             <AddExpense AddNewExpense={addNewExpense} />
