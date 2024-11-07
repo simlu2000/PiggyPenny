@@ -16,9 +16,6 @@ const App = () => {
   return (
     <div className="App">
       <Navbar/>
-      <h1>Add a new Expense</h1>
-      <AddExpense AddNewExpense={handleAddExpense}/>
-      <h2>Your Expenses</h2>
       <ExpenseList expenses={expenses}></ExpenseList>
     </div>
   );

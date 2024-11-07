@@ -4,7 +4,7 @@ const Navbar = () => {
         <>
             <header>
                 <ul type="none">
-                    <li><h2>Expensify</h2></li>
+                    <li><h2 id="nav-text">Expensify</h2></li>
                 </ul>
             </header>
         </>
