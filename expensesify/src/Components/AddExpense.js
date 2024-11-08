@@ -48,8 +48,8 @@ const AddExpense = ({ AddNewExpense }) => {
     };
 
     return (
-        <div id="add">
-            <form onSubmit={handleSubmit}>
+        <div >
+            <form id="add" onSubmit={handleSubmit}>
                 <div className="field-area">
                     <label htmlFor="type">Type: </label>
                     <select id="type" value={type} onChange={(e) => setType(e.target.value)}>

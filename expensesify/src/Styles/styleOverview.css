@@ -1,0 +1,134 @@
+/*--------------------------Add expenses area-----------------------*/
+#add {
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    width:auto;
+    margin-left:5%;
+    margin-bottom:5%;
+    margin-right:5%;
+    border-radius: 25px;
+    padding: 5px;
+  
+  }
+
+  #add label {
+    font-size: 1.3rem;
+    margin-left: 0;
+  }
+  
+  #add input,
+  select {
+    border-radius: 25px;
+    width: 35%;
+    height: 30px;
+    border:none;
+  }
+  
+  .field-area{
+    text-align: left;
+    margin-left: 10%;
+    margin-top:5%;
+  }
+  #text-add {
+    margin-top: 10%;
+  }
+  #add-btn{
+    width:15%;
+    height:50px;
+    border-radius: 25px;
+    margin-top:5%;
+    margin-bottom:5%;
+    font-size:1.5rem;
+    border:1px solid #E2E3F4;
+    background-color: #FFFFFF;
+  }
+  /*---------------------------Expenses Area-------------------------------*/
+  #text-overview{
+    margin-top: 5%;
+    
+  }
+  
+  #user-situation {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 15px;
+    width: auto;
+    margin-right: 15%;
+    margin-left: 4%;
+  }
+  
+  .user-container {
+    width: 200px;
+    height:200px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    border-radius: 25px;
+    font-size: 1.8rem;
+    color:#000000;
+  }
+  #balance{
+    background-color: #E2E3F4;
+  }
+  #revenue {
+    background-color: #A1E5AB;
+  }
+  
+  #outflow{
+    background-color: #FBA69D;
+  }
+  
+  #exp-table {
+    box-shadow: 5px 5px 5px 5px #E2E3F4;
+    border-radius: 25px;
+    width:90%;
+    margin-left:5%;
+    margin-right:5%;
+    position: absolute;
+  }
+  #exp-table tr{
+    font-size:1.5rem;
+  }
+  td + td, th + th {
+    border-left: 1px solid #E2E3F4;
+  }
+  .positive{
+    color:#45b350;
+  }
+  .negative{
+    color:#FBA69D;
+  }
+  .remove{
+    background-color: transparent;
+    border:none;
+    color: #ce0000;
+  }
+  .edit{
+    background-color: transparent;
+    border:none;
+    color:#0a7e15;
+  }
+  .edit-form{
+    margin-bottom:5%;
+    width:auto;
+    margin-left:5%;
+    margin-right:5%;
+    background-color: #E2E3F4;
+    border-radius: 25px;
+    
+  }
+  .edit-form input{
+    border-radius: 25px;
+    border:2px solid #E2E3F4;
+    height:25px;
+    margin:1%;
+    font-size: 1.5rem;
+  }
+  .edit-form label{
+    font-size: 1.5rem;
+  }
+  .btn-exp{
+    font-size:1.5rem;
+  }

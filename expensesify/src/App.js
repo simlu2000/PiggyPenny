@@ -1,8 +1,9 @@
 import React, {useState} from "react";
 import './Styles/style.css';
+import './Styles/styleOverview.css';
 import './Styles/styleNavbar.css';
 import AddExpense from './Components/AddExpense';
-import ExpenseList from './Components/ExpenseList';
+import Overview from './Components/Overview';
 import Navbar from "./Components/Navbar";
 
 const App = () => {
@@ -16,7 +17,7 @@ const App = () => {
   return (
     <div className="App">
       <Navbar/>
-      <ExpenseList expenses={expenses}></ExpenseList>
+      <Overview expenses={expenses}/>
     </div>
   );
 };
