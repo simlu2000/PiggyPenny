@@ -5,16 +5,8 @@ import AddExpense from './AddExpense';
 import 'reactjs-popup/dist/index.css';
 import Popup from "reactjs-popup";
 
-const Navbar = () => {
-
+const Navbar = ({ addNewExpense }) => {
     const [popupOpen, setPopupOpen] = useState(false);
-    const [expenses, setExpenses] = useState([]);
-
-    // Funzione per aggiungere spesa
-    const addNewExpense = (newExpense) => {
-        const updatedExpenses = [...expenses, newExpense];
-        setExpenses(updatedExpenses); // Aggiunge nuova spesa alla lista
-    };
 
     return (
         <>
@@ -33,13 +25,13 @@ const Navbar = () => {
                 modal closeOnDocumentClick
                 contentStyle={{ backgroundColor:'#E2E3F4', height: '45%', minWidth:'35%', maxWidth:'30%', maxHeight:'80vh' }}
             >
-                    <button className="close-popup" onClick={() => setPopupOpen(false)}>
-                        <FontAwesomeIcon icon={faRectangleXmark} />
-                    </button>
-                    <AddExpense AddNewExpense={addNewExpense} />
-                
+                <button className="close-popup" onClick={() => setPopupOpen(false)}>
+                    <FontAwesomeIcon icon={faRectangleXmark} />
+                </button>
+                <AddExpense AddNewExpense={addNewExpense} />
             </Popup>
         </>
     );
 };
+
 export default Navbar;

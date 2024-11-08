@@ -16,7 +16,6 @@ const App = () => {
   
   return (
     <div className="App">
-      <Navbar/>
       <Overview expenses={expenses}/>
     </div>
   );

@@ -28,16 +28,7 @@ const AddExpense = ({ AddNewExpense }) => {
             category,
         };
     
-        AddNewExpense(newExpense); // passa la nuova spesa al componente padre
-    
-        // Recupera le spese esistenti dal localStorage
-        const existingExpenses = JSON.parse(localStorage.getItem('expenses')) || [];
-    
-        // Aggiunge la nuova spesa alla lista esistente
-        const updatedExpenses = [...existingExpenses, newExpense];
-    
-        // Salva l'array aggiornato nel localStorage
-        localStorage.setItem('expenses', JSON.stringify(updatedExpenses));
+        AddNewExpense(newExpense); // Passa la nuova spesa al componente padre
     
         // Ripulisce i campi dopo l'invio
         setType('');
@@ -46,6 +37,7 @@ const AddExpense = ({ AddNewExpense }) => {
         setDescription('');
         setCategory('');
     };
+    
 
     return (
         <div >

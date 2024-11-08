@@ -4,11 +4,9 @@ import { faThumbsUp, faThumbsDown, faScaleBalanced, faScaleUnbalanced, faRemove,
 import AddExpense from './AddExpense';
 import 'reactjs-popup/dist/index.css';
 import Popup from "reactjs-popup";
-
-
+import Navbar from './Navbar';
 
 const Overview = () => {
-
     const [expenses, setExpenses] = useState([]);
     const [balance, setBalance] = useState(0);
     const [Revenue, setRevenue] = useState(0);
@@ -90,9 +88,16 @@ const Overview = () => {
         setPopupOpen(false);  // Disattivo popup
         setEditedExpense(null);  // Resetta spesa in modifica
     };
+    
+    const addNewExpense = (newExpense) => {
+        // Aggiorna lo stato con la nuova spesa
+        setExpenses((prevExpenses) => [...prevExpenses, newExpense]);
+    };
 
     return (
         <>
+            <Navbar addNewExpense={addNewExpense} />  {/* Passiamo addNewExpense a Navbar */}
+            
             {/* Condizione per visualizzare quando non ci sono spese */}
             {expenses.length === 0 ? (
                 <div>
@@ -140,59 +145,46 @@ const Overview = () => {
                             </button>
 
                             <div className="edit-form">
-                                <h2>
-                                    Edit Expense
-                                </h2>
+                                <h2>Edit Expense</h2>
                                 <form onSubmit={(e) => {
                                     e.preventDefault();
                                     handleSaveEdit();
                                 }}>
                                     <div className="field-area">
-
-                                        <label>
-                                            Category:
-                                            <input
-                                                type="text"
-                                                value={editedExpense.category}
-                                                onChange={(e) => setEditedExpense({ ...editedExpense, category: e.target.value })}
-                                            />
-                                        </label>
+                                        <label>Category:</label>
+                                        <input
+                                            type="text"
+                                            value={editedExpense.category}
+                                            onChange={(e) => setEditedExpense({ ...editedExpense, category: e.target.value })}
+                                        />
                                     </div>
-
                                     <div className="field-area">
-                                        <label>
-                                            Amount:
-                                            <input
-                                                type="number"
-                                                value={editedExpense.amount}
-                                                onChange={(e) => setEditedExpense({ ...editedExpense, amount: e.target.value })}
-                                            />
-                                        </label>
+                                        <label>Amount:</label>
+                                        <input
+                                            type="number"
+                                            value={editedExpense.amount}
+                                            onChange={(e) => setEditedExpense({ ...editedExpense, amount: e.target.value })}
+                                        />
                                     </div>
-
                                     <div className="field-area">
-                                        <label>
-                                            Date:
-                                            <input
-                                                type="date"
-                                                value={editedExpense.date}
-                                                onChange={(e) => setEditedExpense({ ...editedExpense, date: e.target.value })}
-                                            />
-                                        </label>
+                                        <label>Date:</label>
+                                        <input
+                                            type="date"
+                                            value={editedExpense.date}
+                                            onChange={(e) => setEditedExpense({ ...editedExpense, date: e.target.value })}
+                                        />
                                     </div>
-
                                     <div className="field-area">
-                                        <label>
-                                            Description:
-                                            <input
-                                                type="text"
-                                                value={editedExpense.description}
-                                                onChange={(e) => setEditedExpense({ ...editedExpense, description: e.target.value })}
-                                            />
-                                        </label>
+                                        <label>Description:</label>
+                                        <input
+                                            type="text"
+                                            value={editedExpense.description}
+                                            onChange={(e) => setEditedExpense({ ...editedExpense, description: e.target.value })}
+                                        />
                                     </div>
-                                    <br></br>
-                                    <button className="edit btn-exp" type="button" onClick={handleSaveEdit}><FontAwesomeIcon icon={faSave} /></button>
+                                    <button className="edit btn-exp" type="button" onClick={handleSaveEdit}>
+                                        <FontAwesomeIcon icon={faSave} />
+                                    </button>
                                 </form>
                             </div>
                         </Popup>
@@ -236,7 +228,6 @@ const Overview = () => {
                     </table>
                 </>
             )}
-
         </>
     );
 };
