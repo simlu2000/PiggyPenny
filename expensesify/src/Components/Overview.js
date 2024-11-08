@@ -14,6 +14,10 @@ const Overview = () => {
     const [editMode, setEditMode] = useState(false);
     const [editedExpense, setEditedExpense] = useState(null);
     const [popupOpen, setPopupOpen] = useState(false);
+    const [period, setPeriod] = useState("day");
+    const [selectedDay, setSelectedDay] = useState(null);
+    const [selectedMonth, setSelectedMonth] = useState(null);
+    const [selectedYear, setSelectedYear] = useState(null);
 
     // Caricamento spese da local storage
     useEffect(() => {
@@ -88,16 +92,108 @@ const Overview = () => {
         setPopupOpen(false);  // Disattivo popup
         setEditedExpense(null);  // Resetta spesa in modifica
     };
-    
+
     const addNewExpense = (newExpense) => {
         // Aggiorna lo stato con la nuova spesa
         setExpenses((prevExpenses) => [...prevExpenses, newExpense]);
     };
 
+    /*Fuzione filtro spese in base al periodo dato*/
+    const filterExpensesByPeriod = (expenses, day, month, year) => {
+        return expenses.filter((expense) => {
+            const expenseDate = new Date(expense.date);
+
+            const isSameDay = day ? expenseDate.getDate() === day : true;
+            const isSameMonth = month ? expenseDate.getMonth() + 1 === month : true;
+            const isSameYear = year ? expenseDate.getFullYear() === year : true;
+
+            return isSameDay && isSameMonth && isSameYear;
+        });
+    };
+
+
+    const filteredExpenses = filterExpensesByPeriod(expenses, selectedDay, selectedMonth, selectedYear);
+
+    /*Calcolo statistiche periodo*/
+    const statsByPeriod = (expenses, period) => {
+
+        /*tot entrate*/
+        const revenues = filteredExpenses
+            .filter((expense) => expense.type === "Revenue")
+            .reduce((acc, expense) => acc + expense.amount, 0);
+
+        /*tot uscite*/
+        const outflows = filteredExpenses
+            .filter((expense) => expense.type === "Outflows")
+            .reduce((acc, expense) => acc + expense.amount, 0);
+
+        /*bilancio*/
+        const totbalance = revenues - outflows;
+
+        return {
+            revenues, outflows, balance,
+        };
+    };
+
+
+    /*Calcolo statistiche per categoria*/
+    const statsByCategory = (expenses) => {
+        return expenses.reduce((acc, expense) => {
+            const { category, amount, type } = expense;
+
+            if (!acc[category]) {
+                acc[category] = { revenue: 0, outflows: 0 };
+            }
+
+            if (type === "Revenue") {
+                acc[category].revenue += amount;
+            } else if (type === "Outflows") {
+                acc[category].outflows += amount;
+            }
+            return acc;
+        }, {});
+    };
+
+    const { revenues, outflows, totbalance } = statsByPeriod(filteredExpenses, period);
+    const statsCategory = statsByCategory(filteredExpenses);
+
+
     return (
         <>
             <Navbar addNewExpense={addNewExpense} />  {/* Passiamo addNewExpense a Navbar */}
-            
+
+            {/*Filtro periodo*/}
+            <div id="filter-area">
+                <label>Day:</label>
+                <select onChange={(e) => setSelectedDay(parseInt(e.target.value))} value={selectedDay || ''}>
+                    <option value="">All</option>
+                    {/* Array(31) :serie di numeri da 1 a 31, una option per ogni elem 
+                        Array(31).keys(): oggetto iterabile che contiene le chiavi dell'array (indici = giorni 0-30)
+                        .map( (day) => ( ... )) : per trasformare ogni elem dell'array
+                    */}
+                    {[...Array(31).keys()].map((day) => (
+                        <option key={day + 1} value={day + 1}>{day + 1}</option>
+                    ))}
+                </select>
+
+                <label>Month:</label>
+                <select onChange={(e) => setSelectedMonth(parseInt(e.target.value))} value={selectedMonth || ''}>
+                    <option value="">All</option>
+                    {[...Array(12).keys()].map((month) => (
+                        <option key={month + 1} value={month + 1}>{month + 1}</option>
+                    ))}
+                </select>
+
+                <label>Year:</label>
+                <select onChange={(e) => setSelectedYear(parseInt(e.target.value))} value={selectedYear || ''}>
+                    <option value="">All</option>
+                    {Array.from(new Set(expenses.map((expense) => new Date(expense.date).getFullYear()))).map((year) => (
+                        <option key={year} value={year}>{year}</option>
+                    ))}
+                </select>
+            </div>
+
+
             {/* Condizione per visualizzare quando non ci sono spese */}
             {expenses.length === 0 ? (
                 <div>
@@ -129,7 +225,28 @@ const Overview = () => {
                                 <FontAwesomeIcon icon={faThumbsDown} /> <br></br> {Outflows < 0 ? `- ${Math.abs(Outflows)} €` : `${Outflows} €`}
                             </h3>
                         </div>
+
+                        {Object.keys(statsCategory).map((category) => (
+                            <div className="stats-container" id="category-stats" key={category}>
+                                <h3>{category}</h3>
+                                <div>
+                                    <FontAwesomeIcon icon={faThumbsUp} />
+                                    <br></br>
+                                    Revenue: {statsCategory[category].revenue} € 
+                                </div>
+                                <div>
+                                    <FontAwesomeIcon icon={faThumbsDown} />
+                                    <br></br>
+                                    Outflows: {statsCategory[category].outflows} €
+                                </div>
+                            </div>
+                        ))}
+
+
+
                     </div>
+
+
 
                     {/*----------------EDIT MODE----------------*/}
                     {popupOpen && editedExpense && (
