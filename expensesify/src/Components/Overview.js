@@ -62,9 +62,6 @@ const Overview = () => {
         setExpenses(updatedExpenses);
     };
 
-    // Ordinamento spese per giorno
-    const sortedExpensesByDay = [...expenses].sort((a, b) => new Date(b.date) - new Date(a.date));
-
     // Funzione per entrare in modalità di modifica/popup
     const handleEdit = (expense) => {
         setEditedExpense({ ...expense });  // Imposto spesa da modificare (copia dell'oggetto)
@@ -111,9 +108,14 @@ const Overview = () => {
         });
     };
 
-
     const filteredExpenses = filterExpensesByPeriod(expenses, selectedDay, selectedMonth, selectedYear);
+    const sortedExpenses = [...filteredExpenses].sort((a, b) => new Date(b.date) - new Date(a.date)); //ordinamento spese fltrate
 
+    useEffect(() => {
+        console.log("Selected filters:", selectedDay, selectedMonth, selectedYear);
+    }, [selectedDay, selectedMonth, selectedYear]);
+
+    
     /*Calcolo statistiche periodo*/
     const statsByPeriod = (expenses, period) => {
 
@@ -167,7 +169,9 @@ const Overview = () => {
                 <label>Day:</label>
                 <select onChange={(e) => setSelectedDay(parseInt(e.target.value))} value={selectedDay || ''}>
                     <option value="">All</option>
-                    {/* Array(31) :serie di numeri da 1 a 31, una option per ogni elem 
+                    {/* 
+                        Al posto di scrivere tutti i giorni: 
+                        Array(31) :serie di numeri da 1 a 31, una option per ogni elem 
                         Array(31).keys(): oggetto iterabile che contiene le chiavi dell'array (indici = giorni 0-30)
                         .map( (day) => ( ... )) : per trasformare ogni elem dell'array
                     */}
@@ -319,7 +323,7 @@ const Overview = () => {
                         </thead>
 
                         <tbody>
-                            {sortedExpensesByDay.map((expense) => (
+                            {sortedExpenses.map((expense) => (
                                 <tr key={expense.id}>
                                     {expense.type === "Revenue"
                                         ? <td className="positive">{expense.type}</td>

@@ -1,13 +1,11 @@
 /*--------------------------Add expenses area-----------------------*/
 #add {
-    -webkit-backdrop-filter: blur(5px);
-    backdrop-filter: blur(5px);
+    
     width:auto;
     margin-left:5%;
-    margin-bottom:5%;
     margin-right:5%;
     border-radius: 25px;
-    padding: 5px;
+    padding:0;
   
   }
 
@@ -33,8 +31,8 @@
     margin-top: 10%;
   }
   #add-btn{
-    width:15%;
-    height:50px;
+    width:10%;
+    height:30px;
     border-radius: 25px;
     margin-top:5%;
     margin-bottom:5%;
