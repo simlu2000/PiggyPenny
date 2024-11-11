@@ -1,6 +1,5 @@
 /*--------------------------Add expenses area-----------------------*/
 #add {
-    
     width:auto;
     margin-left:5%;
     margin-right:5%;
@@ -43,7 +42,6 @@
   /*---------------------------Expenses Area-------------------------------*/
   #text-overview{
     margin-top: 5%;
-    
   }
   
   #user-situation {
@@ -84,6 +82,7 @@
     width:90%;
     margin-left:5%;
     margin-right:5%;
+    margin-top:10%;
     position: absolute;
   }
   #exp-table tr{
@@ -162,5 +161,5 @@
     border-radius: 25px;
     font-size: 1.2rem;
     color:#000000;
-    background-color: #0a7e15;
+    margin-left:15%;
   }

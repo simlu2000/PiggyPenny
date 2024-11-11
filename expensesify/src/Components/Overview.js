@@ -5,6 +5,10 @@ import AddExpense from './AddExpense';
 import 'reactjs-popup/dist/index.css';
 import Popup from "reactjs-popup";
 import Navbar from './Navbar';
+import Filters from "./Filters";
+import PieChart from "./PieChart";
+
+
 
 const Overview = () => {
     const [expenses, setExpenses] = useState([]);
@@ -84,12 +88,6 @@ const Overview = () => {
         setEditedExpense(null);  // Resetto la spesa in modifica
     };
 
-    // Funzione per annullare la modifica
-    const handleCancelEdit = () => {
-        setPopupOpen(false);  // Disattivo popup
-        setEditedExpense(null);  // Resetta spesa in modifica
-    };
-
     const addNewExpense = (newExpense) => {
         // Aggiorna lo stato con la nuova spesa
         setExpenses((prevExpenses) => [...prevExpenses, newExpense]);
@@ -108,14 +106,12 @@ const Overview = () => {
         });
     };
 
-    const filteredExpenses = filterExpensesByPeriod(expenses, selectedDay, selectedMonth, selectedYear);
-    const sortedExpenses = [...filteredExpenses].sort((a, b) => new Date(b.date) - new Date(a.date)); //ordinamento spese fltrate
-
+  
     useEffect(() => {
         console.log("Selected filters:", selectedDay, selectedMonth, selectedYear);
     }, [selectedDay, selectedMonth, selectedYear]);
 
-    
+
     /*Calcolo statistiche periodo*/
     const statsByPeriod = (expenses, period) => {
 
@@ -137,7 +133,6 @@ const Overview = () => {
         };
     };
 
-
     /*Calcolo statistiche per categoria*/
     const statsByCategory = (expenses) => {
         return expenses.reduce((acc, expense) => {
@@ -156,49 +151,26 @@ const Overview = () => {
         }, {});
     };
 
+    const filteredExpenses = filterExpensesByPeriod(expenses, selectedDay, selectedMonth, selectedYear);
+    const sortedExpenses = [...filteredExpenses].sort((a, b) => new Date(b.date) - new Date(a.date)); //ordinamento spese fltrate
+
     const { revenues, outflows, totbalance } = statsByPeriod(filteredExpenses, period);
     const statsCategory = statsByCategory(filteredExpenses);
 
 
     return (
         <>
-            <Navbar addNewExpense={addNewExpense} />  {/* Passiamo addNewExpense a Navbar */}
+            <Navbar addNewExpense={addNewExpense} />
+            <Filters
+                selectedDay={selectedDay}
+                selectedMonth={selectedMonth}
+                selectedYear={selectedYear}
+                setSelectedDay={setSelectedDay}
+                setSelectedMonth={setSelectedMonth}
+                setSelectedYear={setSelectedYear}
+                expenses={expenses}
+            />
 
-            {/*Filtro periodo*/}
-            <div id="filter-area">
-                <label>Day:</label>
-                <select onChange={(e) => setSelectedDay(parseInt(e.target.value))} value={selectedDay || ''}>
-                    <option value="">All</option>
-                    {/* 
-                        Al posto di scrivere tutti i giorni: 
-                        Array(31) :serie di numeri da 1 a 31, una option per ogni elem 
-                        Array(31).keys(): oggetto iterabile che contiene le chiavi dell'array (indici = giorni 0-30)
-                        .map( (day) => ( ... )) : per trasformare ogni elem dell'array
-                    */}
-                    {[...Array(31).keys()].map((day) => (
-                        <option key={day + 1} value={day + 1}>{day + 1}</option>
-                    ))}
-                </select>
-
-                <label>Month:</label>
-                <select onChange={(e) => setSelectedMonth(parseInt(e.target.value))} value={selectedMonth || ''}>
-                    <option value="">All</option>
-                    {[...Array(12).keys()].map((month) => (
-                        <option key={month + 1} value={month + 1}>{month + 1}</option>
-                    ))}
-                </select>
-
-                <label>Year:</label>
-                <select onChange={(e) => setSelectedYear(parseInt(e.target.value))} value={selectedYear || ''}>
-                    <option value="">All</option>
-                    {Array.from(new Set(expenses.map((expense) => new Date(expense.date).getFullYear()))).map((year) => (
-                        <option key={year} value={year}>{year}</option>
-                    ))}
-                </select>
-            </div>
-
-
-            {/* Condizione per visualizzare quando non ci sono spese */}
             {expenses.length === 0 ? (
                 <div>
                     <p>No expenses.</p>
@@ -230,7 +202,7 @@ const Overview = () => {
                             </h3>
                         </div>
 
-                        {Object.keys(statsCategory).map((category) => (
+                        {/*Object.keys(statsCategory).map((category) => (
                             <div className="stats-container" id="category-stats" key={category}>
                                 <h3>{category}</h3>
                                 <div>
@@ -244,7 +216,10 @@ const Overview = () => {
                                     Outflows: {statsCategory[category].outflows} €
                                 </div>
                             </div>
-                        ))}
+                        ))*/}
+
+                        {/*Grafico a torta spese categora*/}
+                        <PieChart statsCategory={statsCategory} />
 
 
 
@@ -347,8 +322,11 @@ const Overview = () => {
                             ))}
                         </tbody>
                     </table>
+
+
                 </>
             )}
+
         </>
     );
 };
