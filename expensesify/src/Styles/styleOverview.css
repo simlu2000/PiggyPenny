@@ -1,165 +1,419 @@
+#actions,
+#data-area {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+#data-area {
+  margin-left: 5%;
+
+}
+
+#lines {
+  border-radius: 25px;
+  box-shadow: 5px 5px 5px 5px #E2E3F4;
+  height: 400px;
+}
+
+#pie {
+  margin-left: 5%;
+}
+
+
 /*--------------------------Add expenses area-----------------------*/
 #add {
-    width:auto;
-    margin-left:5%;
-    margin-right:5%;
-    border-radius: 25px;
-    padding:0;
-  
+  width: auto;
+  margin-left: 5%;
+  margin-right: 5%;
+  border-radius: 25px;
+  padding: 0;
+
+}
+
+#add label {
+  font-size: 1.3rem;
+  margin-left: 0;
+}
+
+#add input,
+select {
+  border-radius: 25px;
+  width: 35%;
+  height: 30px;
+  border: none;
+}
+
+.field-area {
+  text-align: left;
+  margin-left: 10%;
+  margin-top: 5%;
+}
+
+#text-add {
+  margin-top: 10%;
+}
+
+#add-btn {
+  width: 10%;
+  height: 30px;
+  border-radius: 25px;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  font-size: 1.5rem;
+  border: 1px solid #E2E3F4;
+  background-color: #FFFFFF;
+}
+
+/*---------------------------Expenses Area-------------------------------*/
+#text-overview {
+  margin-top: 5%;
+}
+
+#user-situation {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  width: auto;
+  height: 400px;
+  margin-right: 5%;
+  margin-left: 5%;
+  background-color: F7F7F7;
+  box-shadow: 5px 5px 5px 5px #E2E3F4;
+  border-radius: 25px;
+}
+
+.user-container {
+  border-radius: 25px;
+  font-size: 1rem;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+#balance {
+  background-color: #E2E3F4;
+}
+
+#revenue {
+  background-color: #A1E5AB;
+}
+
+#outflow {
+  background-color: #FBA69D;
+}
+
+#exp-table {
+  box-shadow: 5px 5px 5px 5px #E2E3F4;
+  border-radius: 25px;
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 5%;
+  margin-bottom: 25%;
+  position: absolute;
+}
+
+#text-table {
+  margin-top: 5%;
+  margin-bottom: 0;
+}
+
+#exp-table tr {
+  font-size: 1.5rem;
+}
+
+td+td,
+th+th {
+  border-left: 1px solid #E2E3F4;
+}
+
+.positive {
+  color: #45b350;
+}
+
+.negative {
+  color: #FBA69D;
+}
+
+.remove {
+  background-color: transparent;
+  border: none;
+  color: #ce0000;
+}
+
+.edit {
+  background-color: transparent;
+  border: none;
+  color: #0a7e15;
+}
+
+.edit-form {
+  margin-bottom: 5%;
+  width: auto;
+  margin-left: 5%;
+  margin-right: 5%;
+  background-color: #E2E3F4;
+  border-radius: 25px;
+
+}
+
+.edit-form input {
+  border-radius: 25px;
+  border: 2px solid #E2E3F4;
+  height: 25px;
+  margin: 1%;
+  font-size: 1.5rem;
+}
+
+.edit-form label {
+  font-size: 1.5rem;
+}
+
+.btn-exp {
+  font-size: 1.5rem;
+}
+
+/*-----------------------Charts area-------------------*/
+.stats-container {
+  width: 100%;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  border-radius: 25px;
+  font-size: 1.2rem;
+  color: #000000;
+  margin-left: 15%;
+  margin-top: 5%;
+}
+
+
+/*-----------------------Mobile-----------------------*/
+@media (max-width: 600px) {
+  #add {
+    margin-left: 2%;
+    margin-right: 2%;
+    width:100%;
   }
 
-  #add label {
-    font-size: 1.3rem;
-    margin-left: 0;
-  }
-  
   #add input,
   select {
-    border-radius: 25px;
-    width: 35%;
-    height: 30px;
-    border:none;
+    width: 90%;
+    height: 25px;
+  }
+
+  .field-area {
+    margin-left: 0;
+    margin-top: 3%;
+  }
+
+  #data-area {
+    width: 90%;
+  }
+
+  #lines {
+    width: 100%;
   }
   
-  .field-area{
-    text-align: left;
-    margin-left: 10%;
-    margin-top:5%;
+  #add-btn {
+    width: 50%;
+    height: 35px;
+    font-size: 1rem;
   }
-  #text-add {
-    margin-top: 10%;
-  }
-  #add-btn{
-    width:10%;
-    height:30px;
-    border-radius: 25px;
-    margin-top:5%;
-    margin-bottom:5%;
-    font-size:1.5rem;
-    border:1px solid #E2E3F4;
-    background-color: #FFFFFF;
-  }
-  /*---------------------------Expenses Area-------------------------------*/
-  #text-overview{
-    margin-top: 5%;
-  }
-  
-  #user-situation {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    padding: 15px;
-    width: auto;
-    margin-right: 15%;
-    margin-left: 4%;
-  }
-  
-  .user-container {
-    width: 200px;
-    height:200px;
-    display:flex;
+
+  #actions {
     justify-content: center;
     align-items: center;
-    margin: 10px;
-    border-radius: 25px;
-    font-size: 1.8rem;
-    color:#000000;
+    flex-direction: column;
   }
-  #balance{
-    background-color: #E2E3F4;
+
+  #user-situation {
+    flex-direction: column;
+    padding: 20px;
+    height: auto;
   }
-  #revenue {
-    background-color: #A1E5AB;
+
+  .user-container {
+    width: 100%;
+    margin: 5px 0;
+    height: 15%;
   }
-  
-  #outflow{
-    background-color: #FBA69D;
-  }
-  
+
   #exp-table {
-    box-shadow: 5px 5px 5px 5px #E2E3F4;
-    border-radius: 25px;
-    width:90%;
-    margin-left:5%;
-    margin-right:5%;
-    margin-top:10%;
-    position: absolute;
+    width: auto;
+    position: relative;
+    margin-left: 0;
+    margin-right: 0;
+    font-size: 0.2rem;
   }
   #exp-table tr{
-    font-size:1.5rem;
+    font-size:1rem;
   }
-  td + td, th + th {
-    border-left: 1px solid #E2E3F4;
-  }
-  .positive{
-    color:#45b350;
-  }
-  .negative{
-    color:#FBA69D;
-  }
-  .remove{
-    background-color: transparent;
-    border:none;
-    color: #ce0000;
-  }
-  .edit{
-    background-color: transparent;
-    border:none;
-    color:#0a7e15;
-  }
-  .edit-form{
-    margin-bottom:5%;
-    width:auto;
-    margin-left:5%;
-    margin-right:5%;
-    background-color: #E2E3F4;
-    border-radius: 25px;
-    
-  }
-  .edit-form input{
-    border-radius: 25px;
-    border:2px solid #E2E3F4;
-    height:25px;
-    margin:1%;
-    font-size: 1.5rem;
-  }
-  .edit-form label{
-    font-size: 1.5rem;
-  }
-  .btn-exp{
-    font-size:1.5rem;
+  #text-table {
+    font-size: 2rem;
+    margin-top: 15%;
   }
 
-  /*-----------------------selectPeriod Area------------------------*/
-  .text-select{
-    font-size:2.5rem;
-  }
-  #filter-area{
-    display: flex;
-    margin-left:5%;
-   margin-top:0;
-  }
-  #filter-area label{
-    font-size:1.2rem;
-    font-weight: bold;
-  }
-  #filter-area select{
-    font-size:1.2rem;
-    font-weight: bold;
-    width:100px
+  .edit-form {
+    margin-left: 2%;
+    margin-right: 2%;
   }
 
+  .edit-form input {
+    font-size: 1rem;
+  }
 
-  /*-----------------------Statistics catrgory area-------------------*/
-  .stats-container{
-    width: 25%;
-    height:200px;
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    margin: 10px;
-    border-radius: 25px;
+  .btn-exp {
     font-size: 1.2rem;
-    color:#000000;
-    margin-left:15%;
   }
+
+
+
+}
+
+/*-----------------------Tablet-----------------------*/
+@media (max-width: 768px) {
+  #add {
+    margin-left: 3%;
+    margin-right: 3%;
+  }
+
+  #add input,
+  select {
+    width: 80%;
+    height: 28px;
+  }
+
+  .field-area {
+    margin-left: 5%;
+    margin-top: 4%;
+  }
+
+  #add-btn {
+    width: 40%;
+    height: 35px;
+    font-size: 1.2rem;
+  }
+
+  #user-situation {
+    flex-direction: column;
+    padding: 30px;
+    height: auto;
+  }
+
+  .user-container {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  #exp-table {
+    width: 95%;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+  }
+  
+
+  .edit-form {
+    margin-left: 3%;
+    margin-right: 3%;
+  }
+
+  .edit-form input {
+    font-size: 1.3rem;
+  }
+
+  .btn-exp {
+    font-size: 1.3rem;
+  }
+
+  .stats-container {
+    height: 300px;
+    margin-left: 10%;
+    margin-top: 4%;
+  }
+
+  #lines,
+  #pie {
+    margin-top: 10%;
+    margin-left: 0;
+  }
+
+}
+
+/*-----------------------Desktop-----------------------*/
+@media (min-width: 1024px) {
+  #add {
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+
+  #add input,
+  select {
+    width: 35%;
+    height: 30px;
+  }
+
+  .field-area {
+    margin-left: 10%;
+    margin-top: 5%;
+  }
+
+  #add-btn {
+    width: 10%;
+    height: 30px;
+    font-size: 1.5rem;
+  }
+
+  #user-situation {
+    flex-direction: row;
+    padding: 70px;
+    height: 400px;
+  }
+
+  .user-container {
+    width: 100px;
+    margin: 10px;
+    margin-top: 5%;
+  }
+
+  #exp-table {
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    position: absolute;
+  }
+
+  .edit-form {
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+
+  .edit-form input {
+    font-size: 1.5rem;
+  }
+
+  .btn-exp {
+    font-size: 1.5rem;
+  }
+
+  .stats-container {
+    width: 25%;
+    margin-left: 15%;
+    margin-top: 5%;
+  }
+
+  #lines,
+  #pie {
+    margin-top: 0;
+  }
+
+  #lines {
+    width: 100%;
+
+  }
+}

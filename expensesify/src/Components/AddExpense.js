@@ -40,7 +40,7 @@ const AddExpense = ({ AddNewExpense }) => {
     
 
     return (
-        <div >
+        <div>
             <form id="add" onSubmit={handleSubmit}>
                 <div className="field-area">
                     <label htmlFor="type">Type: </label>

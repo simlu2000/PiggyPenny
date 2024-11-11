@@ -11,7 +11,7 @@ const Navbar = ({ addNewExpense }) => {
     return (
         <>
             <header className="navbar">
-                <h2 id="nav-text">Expensify</h2>
+                <h2 id="nav-text">Expensisify</h2>
                 <button className="add-expense-btn" onClick={() => setPopupOpen(true)}>
                     <FontAwesomeIcon icon={faPlus} />
                 </button>
@@ -23,7 +23,7 @@ const Navbar = ({ addNewExpense }) => {
                 open={popupOpen}
                 onClose={() => setPopupOpen(false)}
                 modal closeOnDocumentClick
-                contentStyle={{ backgroundColor:'#E2E3F4', height: '45%', minWidth:'35%', maxWidth:'30%', maxHeight:'80vh' }}
+                contentStyle={{ backgroundColor:'#E2E3F4', height: '45%', minWidth:'70%', maxWidth:'100%', maxHeight:'90vh' }}
             >
                 <button className="close-popup" onClick={() => setPopupOpen(false)}>
                     <FontAwesomeIcon icon={faRectangleXmark} />

@@ -1,19 +1,22 @@
 header {
     display: flex;
-    align-items: center; 
-    justify-content: space-between; 
+    align-items: center;
+    justify-content: space-between;
     background-color: #E2E3F4;
     -webkit-backdrop-filter: blur(5px);
     backdrop-filter: blur(5px);
     padding: 15px;
     border-radius: 25px;
     width: 90%;
-    margin: 10px auto; 
+    margin: 10px auto;
+    z-index: 10;
 }
-#nav-text{
+
+#nav-text {
     font-size: 1.8rem;
     font-weight: bold;
 }
+
 /* Popup al centro dello schermo */
 .popup-content {
     background-color: #fff;
@@ -27,7 +30,7 @@ header {
 }
 
 .add-expense-btn {
-    background-color: #4CAF50;
+    background-color: #392f5a;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -37,7 +40,8 @@ header {
 }
 
 .add-expense-btn:hover {
-    background-color: #45a049;
+    background-color: #FFFFFF;
+    color: #000000;
 }
 
 .close-popup {
@@ -49,4 +53,40 @@ header {
     position: absolute;
     top: 10px;
     right: 10px;
+}
+
+@media (max-width: 600px) {
+
+    .popup-content {
+        width: 100%;
+        min-width: 600px;
+
+    }
+
+}
+
+@media (max-width: 481px) {
+    header {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        margin: 0;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 10px;
+    }
+
+    #nav-text {
+        display: none;
+
+    }
+
+    .add-expense-btn {
+        align-items: center;
+        justify-content: center;
+        margin: auto;
+    }
 }

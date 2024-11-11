@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbsUp, faThumbsDown, faScaleBalanced, faScaleUnbalanced, faRemove, faEdit, faRectangleXmark, faSave, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faThumbsUp, faThumbsDown, faScaleBalanced, faScaleUnbalanced, faRemove, faEdit, faRectangleXmark, faSave, faPlus, faCar, faHome, faLightbulb, faFilm, faHeartbeat, faPlane, faMoneyBillWave, faEllipsisH } from "@fortawesome/free-solid-svg-icons";
 import AddExpense from './AddExpense';
 import 'reactjs-popup/dist/index.css';
 import Popup from "reactjs-popup";
 import Navbar from './Navbar';
 import Filters from "./Filters";
 import PieChart from "./PieChart";
-
+import LinesChart from "./LinesChart";
 
 
 const Overview = () => {
@@ -38,27 +38,42 @@ const Overview = () => {
         }
     }, [expenses]);
 
+    /*Fuzione filtro spese in base al periodo dato*/
+    const filterExpensesByPeriod = (expenses, day, month, year) => {
+        return expenses.filter((expense) => {
+            const expenseDate = new Date(expense.date);
+
+            const isSameDay = day ? expenseDate.getDate() === day : true;
+            const isSameMonth = month ? expenseDate.getMonth() + 1 === month : true;
+            const isSameYear = year ? expenseDate.getFullYear() === year : true;
+
+            return isSameDay && isSameMonth && isSameYear;
+        });
+    };
+
+    const filteredExpenses = filterExpensesByPeriod(expenses, selectedDay, selectedMonth, selectedYear);
+
     // Calcolo del saldo totale
     useEffect(() => {
-        const balanceTot = expenses.reduce((acc, expense) => acc + expense.amount, 0);
+        const balanceTot = filteredExpenses.reduce((acc, expense) => acc + expense.amount, 0);
         setBalance(balanceTot);
-    }, [expenses]);
+    }, [filteredExpenses]);
 
-    // Calcolo del totale delle entrate
+    // Calcolo entrate
     useEffect(() => {
-        const RevenueTot = expenses
+        const RevenueTot = filteredExpenses
             .filter((expense) => expense.type === "Revenue")
             .reduce((acc, expense) => acc + expense.amount, 0);
         setRevenue(RevenueTot);
-    }, [expenses]);
+    }, [filteredExpenses]);
 
-    // Calcolo delle uscite
+    // Calcolo uscite
     useEffect(() => {
-        const OutflowsTot = expenses
+        const OutflowsTot = filteredExpenses
             .filter((expense) => expense.type === "Outflows")
             .reduce((acc, expense) => acc + expense.amount, 0);
         setOutflows(OutflowsTot);
-    }, [expenses]);
+    }, [filteredExpenses]);
 
     // Funzione per rimuovere spesa
     const handleRemove = (expenseId) => {
@@ -93,20 +108,8 @@ const Overview = () => {
         setExpenses((prevExpenses) => [...prevExpenses, newExpense]);
     };
 
-    /*Fuzione filtro spese in base al periodo dato*/
-    const filterExpensesByPeriod = (expenses, day, month, year) => {
-        return expenses.filter((expense) => {
-            const expenseDate = new Date(expense.date);
 
-            const isSameDay = day ? expenseDate.getDate() === day : true;
-            const isSameMonth = month ? expenseDate.getMonth() + 1 === month : true;
-            const isSameYear = year ? expenseDate.getFullYear() === year : true;
 
-            return isSameDay && isSameMonth && isSameYear;
-        });
-    };
-
-  
     useEffect(() => {
         console.log("Selected filters:", selectedDay, selectedMonth, selectedYear);
     }, [selectedDay, selectedMonth, selectedYear]);
@@ -151,7 +154,6 @@ const Overview = () => {
         }, {});
     };
 
-    const filteredExpenses = filterExpensesByPeriod(expenses, selectedDay, selectedMonth, selectedYear);
     const sortedExpenses = [...filteredExpenses].sort((a, b) => new Date(b.date) - new Date(a.date)); //ordinamento spese fltrate
 
     const { revenues, outflows, totbalance } = statsByPeriod(filteredExpenses, period);
@@ -161,15 +163,20 @@ const Overview = () => {
     return (
         <>
             <Navbar addNewExpense={addNewExpense} />
-            <Filters
-                selectedDay={selectedDay}
-                selectedMonth={selectedMonth}
-                selectedYear={selectedYear}
-                setSelectedDay={setSelectedDay}
-                setSelectedMonth={setSelectedMonth}
-                setSelectedYear={setSelectedYear}
-                expenses={expenses}
-            />
+
+            <div id="actions" >
+                <Filters
+                    selectedDay={selectedDay}
+                    selectedMonth={selectedMonth}
+                    selectedYear={selectedYear}
+                    setSelectedDay={setSelectedDay}
+                    setSelectedMonth={setSelectedMonth}
+                    setSelectedYear={setSelectedYear}
+                    expenses={expenses}
+                />
+
+
+            </div>
 
             {expenses.length === 0 ? (
                 <div>
@@ -180,48 +187,8 @@ const Overview = () => {
                 <>
                     <h2 id="text-overview" className="title">Overview</h2>
                     <div id="user-situation">
-                        <div className="user-container" id="balance">
-                            {balance >= 0 ? (
-                                <h3>
-                                    <FontAwesomeIcon icon={faScaleBalanced} /> <br></br> {balance} €
-                                </h3>
-                            ) : (
-                                <h3>
-                                    <FontAwesomeIcon icon={faScaleUnbalanced} /> <br></br> -{Math.abs(balance)} €
-                                </h3>
-                            )}
-                        </div>
-                        <div className="user-container" id="revenue">
-                            <h3>
-                                <FontAwesomeIcon icon={faThumbsUp} /> <br></br> + {Revenue} €
-                            </h3>
-                        </div>
-                        <div className="user-container" id="outflow">
-                            <h3>
-                                <FontAwesomeIcon icon={faThumbsDown} /> <br></br> {Outflows < 0 ? `- ${Math.abs(Outflows)} €` : `${Outflows} €`}
-                            </h3>
-                        </div>
-
-                        {/*Object.keys(statsCategory).map((category) => (
-                            <div className="stats-container" id="category-stats" key={category}>
-                                <h3>{category}</h3>
-                                <div>
-                                    <FontAwesomeIcon icon={faThumbsUp} />
-                                    <br></br>
-                                    Revenue: {statsCategory[category].revenue} € 
-                                </div>
-                                <div>
-                                    <FontAwesomeIcon icon={faThumbsDown} />
-                                    <br></br>
-                                    Outflows: {statsCategory[category].outflows} €
-                                </div>
-                            </div>
-                        ))*/}
-
-                        {/*Grafico a torta spese categora*/}
+                        <LinesChart expenses={filteredExpenses} />
                         <PieChart statsCategory={statsCategory} />
-
-
 
                     </div>
 
@@ -234,7 +201,7 @@ const Overview = () => {
                             open={popupOpen}
                             onClose={() => setPopupOpen(false)}
                             modal closeOnDocumentClick
-                            contentStyle={{ backgroundColor: '#E2E3F4', height: '40%', minWidth: '25%', maxWidth: '30%', maxHeight: '80vh' }}
+                            contentStyle={{ backgroundColor: '#E2E3F4', height: '50%', minWidth: '80%', maxWidth: '100%', maxHeight: '80vh' }}
                         >
                             <button className="close-popup" onClick={() => setPopupOpen(false)}>
                                 <FontAwesomeIcon icon={faRectangleXmark} />
@@ -286,10 +253,36 @@ const Overview = () => {
                         </Popup>
                     )}
 
+                    <h2 id="text-table" className="title">Your expenses</h2>
+                    <div id="data-area">
+                        <div className="user-container" id="balance">
+                            {balance >= 0 ? (
+                                <h3>
+                                    <FontAwesomeIcon icon={faScaleBalanced} /> {balance} €
+                                </h3>
+                            ) : (
+                                <h3>
+                                    <FontAwesomeIcon icon={faScaleUnbalanced} /> -{Math.abs(balance)} €
+                                </h3>
+                            )}
+                        </div>
+                        <div className="user-container" id="revenue">
+                            <h3>
+                                <FontAwesomeIcon icon={faThumbsUp} /> + {Revenue} €
+                            </h3>
+                        </div>
+                        <div className="user-container" id="outflow">
+                            <h3>
+                                <FontAwesomeIcon icon={faThumbsDown} /> {Outflows < 0 ? `- ${Math.abs(Outflows)} €` : `${Outflows} €`}
+                            </h3>
+                        </div>
+                    </div>
+
                     <table id="exp-table">
+
                         <thead>
                             <tr>
-                                <th>Type</th>
+                                <th>+/-</th>
                                 <th>Category</th>
                                 <th>Amount</th>
                                 <th>Date</th>
@@ -301,10 +294,19 @@ const Overview = () => {
                             {sortedExpenses.map((expense) => (
                                 <tr key={expense.id}>
                                     {expense.type === "Revenue"
-                                        ? <td className="positive">{expense.type}</td>
-                                        : <td className="negative">{expense.type}</td>
+                                        ? <td className="positive"><FontAwesomeIcon icon={faThumbsUp} /></td>
+                                        : <td className="negative"><FontAwesomeIcon icon={faThumbsDown} /></td>
                                     }
-                                    <td>{expense.category}</td>
+                                    <td>
+                                        {expense.category === "Car" && <FontAwesomeIcon icon={faCar} />}
+                                        {expense.category === "Rent" && <FontAwesomeIcon icon={faHome} />}
+                                        {expense.category === "Utilities" && <FontAwesomeIcon icon={faLightbulb} />}
+                                        {expense.category === "Entertainment" && <FontAwesomeIcon icon={faFilm} />}
+                                        {expense.category === "Health" && <FontAwesomeIcon icon={faHeartbeat} />}
+                                        {expense.category === "Travel" && <FontAwesomeIcon icon={faPlane} />}
+                                        {expense.category === "Salary" && <FontAwesomeIcon icon={faMoneyBillWave} />}
+                                        {expense.category === "Other" && <FontAwesomeIcon icon={faEllipsisH} />}
+                                    </td>
                                     {expense.type === "Revenue"
                                         ? <td className="positive">{expense.amount}</td>
                                         : <td className="negative">{expense.amount}</td>
