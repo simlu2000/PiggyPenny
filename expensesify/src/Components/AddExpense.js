@@ -78,7 +78,7 @@ const AddExpense = ({ AddNewExpense }) => {
 
                 <div className="field-area">
                     <label htmlFor="description">Description: </label>
-                    <input type="text" id="description" value={description} onChange={(e) => setDescription(e.target.value)} required />
+                    <input type="text" id="description" value={description} onChange={(e) => setDescription(e.target.value)} maxLength="25" required />
                 </div>
 
                 <button type="submit" id="add-btn"><FontAwesomeIcon icon={faAdd} /></button>
