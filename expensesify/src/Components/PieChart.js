@@ -12,7 +12,7 @@ const PieChart = ({ statsCategory }) => {
       if (window.innerWidth < 600) {
         setChartWidth(300);
       } else {
-        setChartWidth(400);
+        setChartWidth(380);
       }
     };
 
