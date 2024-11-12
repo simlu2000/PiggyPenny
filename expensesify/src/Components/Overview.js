@@ -9,14 +9,12 @@ import Filters from "./Filters";
 import PieChart from "./PieChart";
 import LinesChart from "./LinesChart";
 import { useNavigate } from 'react-router-dom';
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
+import { NotificationManager } from 'react-notifications';
 import { auth, googleProvider } from '../Utils/firebaseConfig';
-import { onAuthStateChanged } from "firebase/auth";
 
 const Overview = () => {
-
-    const [user, setUser] = useState(null); // Stato per gestire l'utente
+    const [user, setUser] = useState(null);
     const [expenses, setExpenses] = useState([]);
     const [balance, setBalance] = useState(0);
     const [Revenue, setRevenue] = useState(0);
@@ -33,9 +31,9 @@ const Overview = () => {
     useEffect(() => {
         const storedExpenses = localStorage.getItem("expenses");
         if (storedExpenses) {
-            setExpenses(JSON.parse(storedExpenses)); // Se trovate spese, aggiorno stato spese con quelle trovate
+            setExpenses(JSON.parse(storedExpenses));
         }
-    }, []); //si esegue solo una volta al caricamento del componente
+    }, []);
 
     // Quando lista spese cambia, aggiorno localStorage
     useEffect(() => {
@@ -44,7 +42,7 @@ const Overview = () => {
         }
     }, [expenses]);
 
-    /*Fuzione filtro spese in base al periodo dato*/
+    // Funzione filtro spese in base al periodo dato
     const filterExpensesByPeriod = (expenses, day, month, year) => {
         return expenses.filter((expense) => {
             const expenseDate = new Date(expense.date);
@@ -89,13 +87,12 @@ const Overview = () => {
 
     // Funzione per entrare in modalità di modifica/popup
     const handleEdit = (expense) => {
-        setEditedExpense({ ...expense });  // Imposto spesa da modificare (copia dell'oggetto)
-        setPopupOpen(true);  // Attivo popup modifica
+        setEditedExpense({ ...expense });
+        setPopupOpen(true);
     };
 
     // Funzione per salvare le modifiche
     const handleSaveEdit = () => {
-        // Verifica se 'editedExpense' ha valori validi
         if (!editedExpense || !editedExpense.category || !editedExpense.amount) {
             alert("Please complete all fields.");
             return;
@@ -105,44 +102,32 @@ const Overview = () => {
             expense.id === editedExpense.id ? editedExpense : expense
         );
         setExpenses(updatedExpenses);
-        setEditMode(false);  // Disattivo la modalità di modifica
-        setEditedExpense(null);  // Resetto la spesa in modifica
+        setEditMode(false);
+        setEditedExpense(null);
     };
 
     const addNewExpense = (newExpense) => {
-        // Aggiorna lo stato con la nuova spesa
         setExpenses((prevExpenses) => [...prevExpenses, newExpense]);
     };
-
-
 
     useEffect(() => {
         console.log("Selected filters:", selectedDay, selectedMonth, selectedYear);
     }, [selectedDay, selectedMonth, selectedYear]);
 
-
-    /*Calcolo statistiche periodo*/
     const statsByPeriod = (expenses, period) => {
-
-        /*tot entrate*/
         const revenues = filteredExpenses
             .filter((expense) => expense.type === "Revenue")
             .reduce((acc, expense) => acc + expense.amount, 0);
 
-        /*tot uscite*/
         const outflows = filteredExpenses
             .filter((expense) => expense.type === "Outflows")
             .reduce((acc, expense) => acc + expense.amount, 0);
 
-        /*bilancio*/
         const totbalance = revenues - outflows;
 
-        return {
-            revenues, outflows, balance,
-        };
+        return { revenues, outflows, totbalance };
     };
 
-    /*Calcolo statistiche per categoria*/
     const statsByCategory = (expenses) => {
         return expenses.reduce((acc, expense) => {
             const { category, amount, type } = expense;
@@ -160,8 +145,7 @@ const Overview = () => {
         }, {});
     };
 
-    const sortedExpenses = [...filteredExpenses].sort((a, b) => new Date(b.date) - new Date(a.date)); //ordinamento spese fltrate
-
+    const sortedExpenses = [...filteredExpenses].sort((a, b) => new Date(b.date) - new Date(a.date));
     const { revenues, outflows, totbalance } = statsByPeriod(filteredExpenses, period);
     const statsCategory = statsByCategory(filteredExpenses);
 
@@ -172,14 +156,14 @@ const Overview = () => {
             const result = await signInWithPopup(auth, googleProvider);
             const user = result.user;
             console.log("User logged in: ", user);
-            setUser(user);  // Aggiorna lo stato utente
+            setUser(user);
             navigate('/');
         } catch (error) {
             console.error("Error sign in with Google: ", error);
         }
     };
 
-    //Aggiornamento stato utente
+    // Aggiornamento stato utente
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -191,14 +175,16 @@ const Overview = () => {
         return () => unsubscribe();
     }, []);
 
+    //Invio notifiche se il saldo è negativo
+    useEffect(() => {
+        if (totbalance < 0) {
+            NotificationManager.error('Balance alarm!', 'Your balance is negative', 5000);
+        }
+    }, [totbalance]);
 
     return (
         <>
-
-            {user && (
-                <Navbar addNewExpense={addNewExpense} />
-
-            )}
+            {user && <Navbar addNewExpense={addNewExpense} />}
 
             <div id="actions">
                 {user && (
@@ -235,8 +221,6 @@ const Overview = () => {
                                 <PieChart statsCategory={statsCategory} />
                             </div>
 
-
-                            {/* Popup per modifica spesa */}
                             {popupOpen && editedExpense && (
                                 <Popup
                                     className="popup"
@@ -251,36 +235,32 @@ const Overview = () => {
 
                                     <div className="edit-form">
                                         <h2>Edit Expense</h2>
-                                        <form onSubmit={(e) => {
-                                            e.preventDefault();
-                                            handleSaveEdit();
-                                        }}>
-                                            <div className="field-area">
-                                                <label>Category:</label>
-                                                <input
-                                                    type="text"
-                                                    value={editedExpense.category}
-                                                    onChange={(e) => setEditedExpense({ ...editedExpense, category: e.target.value })}
-                                                />
-                                            </div>
-                                            <div className="field-area">
-                                                <label>Amount:</label>
-                                                <input
-                                                    type="number"
-                                                    value={editedExpense.amount}
-                                                    onChange={(e) => setEditedExpense({ ...editedExpense, amount: parseFloat(e.target.value) })}
-                                                />
-                                            </div>
-                                            <button className="action-btn" type="submit">
-                                                <FontAwesomeIcon icon={faSave} />
-                                                &nbsp; Save changes
-                                            </button>
+                                        <form onSubmit={(e) => { e.preventDefault(); handleSaveEdit(); }}>
+                                            <input
+                                                type="text"
+                                                placeholder="Expense category"
+                                                value={editedExpense.category}
+                                                onChange={(e) => setEditedExpense({ ...editedExpense, category: e.target.value })}
+                                            />
+                                            <input
+                                                type="number"
+                                                placeholder="Amount"
+                                                value={editedExpense.amount}
+                                                onChange={(e) => setEditedExpense({ ...editedExpense, amount: Number(e.target.value) })}
+                                            />
+                                            <input
+                                                type="text"
+                                                placeholder="Description"
+                                                value={editedExpense.description}
+                                                onChange={(e) => setEditedExpense({ ...editedExpense, description: e.target.value })}
+                                            />
+                                            <button type="submit" className="save-edit"><FontAwesomeIcon icon={faSave} /> Save</button>
                                         </form>
                                     </div>
                                 </Popup>
                             )}
 
-                            <h2 id="text-table" className="title">Your expenses</h2>
+<h2 id="text-table" className="title">Your expenses</h2>
                             <div id="data-area">
                                 <div className="user-container" id="balance">
                                     {balance >= 0 ? (
@@ -351,10 +331,11 @@ const Overview = () => {
                                     ))}
                                 </tbody>
                             </table>
-
                         </>
                     ) : (
-                        <p>Enter new expenses to started!</p>
+                        <div className="empty">
+                            <h2 id="text-no-expenses">No expenses for this period</h2>
+                        </div>
                     )}
                 </>
             )}

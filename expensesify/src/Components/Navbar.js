@@ -40,7 +40,7 @@ const Navbar = ({ addNewExpense }) => {
     return (
         <>
             <header className="navbar">
-                <h2 id="nav-text">Expensisify</h2>
+                <h2 id="nav-text">Expensesify</h2>
                 <div>
                     <button className="nav-btn" onClick={() => setPopupOpen(true)}>
                         <FontAwesomeIcon icon={faPlus} />
