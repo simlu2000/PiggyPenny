@@ -29,7 +29,7 @@ header {
     text-align: center;
 }
 
-.add-expense-btn {
+.nav-btn {
     background-color: #392f5a;
     color: white;
     border: none;
@@ -37,9 +37,10 @@ header {
     border-radius: 25px;
     cursor: pointer;
     font-size: 1.2rem;
+    margin: 5px;
 }
 
-.add-expense-btn:hover {
+.nav-btn:hover {
     background-color: #FFFFFF;
     color: #000000;
 }
@@ -84,7 +85,7 @@ header {
 
     }
 
-    .add-expense-btn {
+    .nav-btn {
         align-items: center;
         justify-content: center;
         margin: auto;
