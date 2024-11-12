@@ -215,12 +215,12 @@ const Overview = () => {
             </div>
 
             {!user ? (
-                <div>
+                <div id="intro-container">
                     <h1 id="intro-title">Expensisify</h1>
                     <h2 id="intro-subtitle">Sign in and manage your wallet</h2>
                     <button id="continueGoogle" onClick={handleGoogleSignIn}>
                         <p>
-                            <FontAwesomeIcon icon={faGoogle} style={{ color: "#000000" }} />
+                            <FontAwesomeIcon icon={faGoogle} style={{ color: "#FFFFFF" }} />
                             &nbsp;Continue with Google
                         </p>
                     </button>
