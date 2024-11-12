@@ -26,7 +26,7 @@
 
 #intro-title{
   font-size:5rem;
-  margin-top:35%;
+  margin-top:20%;
   color:#FFFFFF;
 }
 #intro-subtitle{
@@ -428,13 +428,13 @@ th+th {
     margin-top: 5%;
   }
 
-  #lines,
-  #pie {
-    margin-top: 0;
+  #pie{
+    margin-top:5%;
+    margin-right:5%;
   }
 
   #lines {
-    width: 100%;
+    width: 60%;
 
   }
 }

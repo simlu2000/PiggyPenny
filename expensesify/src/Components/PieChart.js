@@ -10,9 +10,9 @@ const PieChart = ({ statsCategory }) => {
     // Funzione per aggiornare la larghezza del chart in base alla dimensione della finestra
     const handleResize = () => {
       if (window.innerWidth < 600) {
-        setChartWidth(320);
+        setChartWidth(300);
       } else {
-        setChartWidth(350);
+        setChartWidth(400);
       }
     };
 
@@ -40,7 +40,7 @@ const PieChart = ({ statsCategory }) => {
       labels: Object.keys(statsCategory), //per le etichette prendo categorie
       responsive: [
         {
-          breakpoint: 480,
+          breakpoint: 600,
           options: {
             chart: {
               width: 300
