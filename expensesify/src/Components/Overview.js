@@ -216,7 +216,7 @@ const Overview = () => {
 
             {!user ? (
                 <div id="intro-container">
-                    <h1 id="intro-title">Expensisify</h1>
+                    <h1 id="intro-title">Expensesify</h1>
                     <h2 id="intro-subtitle">Sign in and manage your wallet</h2>
                     <button id="continueGoogle" onClick={handleGoogleSignIn}>
                         <p>
