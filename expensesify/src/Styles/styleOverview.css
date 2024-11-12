@@ -260,8 +260,9 @@ th+th {
 
   .user-container {
     width: 100%;
-    margin: 5px 0;
-    height: 15%;
+    height: 5%;
+    font-size: 0.9rem;
+    padding:0;
   }
 
   #exp-table {
