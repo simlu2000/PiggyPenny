@@ -8,7 +8,7 @@
 
 #data-area {
   margin-left: 5%;
-  margin-top:25px;
+  margin-top: 25px;
 
 }
 
@@ -20,7 +20,7 @@
 
 #pie {
   margin-left: 5%;
-  margin-top:10%;
+  margin-top: 10%;
 }
 
 
@@ -29,22 +29,22 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh; 
+  height: 100vh;
   text-align: center;
-  
+
 }
 
 #intro-title {
   font-size: 5rem;
   margin: 0;
-  color:#FFFFFF;
+  color: #FFFFFF;
 }
 
 #intro-subtitle {
   font-size: 1rem;
   margin-top: 10px;
   margin-bottom: 20px;
-  color:#FFFFFF;
+  color: #FFFFFF;
 }
 
 #continueGoogle {
@@ -54,7 +54,7 @@
   border-radius: 25px;
   background-color: transparent;
   border: none;
-  color:#FFFFFF;
+  color: #FFFFFF;
   box-shadow: 1px 1px 1px 1px #FFFFFF;
 }
 
@@ -117,7 +117,8 @@ select {
   margin-left: 5%;
   background-color: #E2E3F4;
   -webkit-backdrop-filter: blur(5px);
-  backdrop-filter: blur(5px);  box-shadow: 1px 1px 1px 1px #E2E3F4;
+  backdrop-filter: blur(5px);
+  box-shadow: 1px 1px 1px 1px #E2E3F4;
   border-radius: 25px;
 }
 
@@ -238,7 +239,7 @@ th+th {
   #add {
     margin-left: 2%;
     margin-right: 2%;
-    width:100%;
+    width: 100%;
   }
 
   #add input,
@@ -259,7 +260,7 @@ th+th {
   #lines {
     width: 100%;
   }
-  
+
   #add-btn {
     width: 50%;
     height: 35px;
@@ -282,7 +283,7 @@ th+th {
     width: 100%;
     height: 5%;
     font-size: 0.9rem;
-    padding:0;
+    padding: 0;
   }
 
   #exp-table {
@@ -292,9 +293,11 @@ th+th {
     margin-right: 0;
     font-size: 0.2rem;
   }
-  #exp-table tr{
-    font-size:1rem;
+
+  #exp-table tr {
+    font-size: 1rem;
   }
+
   #text-table {
     font-size: 2rem;
     margin-top: 15%;
@@ -357,7 +360,7 @@ th+th {
     margin-left: 2.5%;
     margin-right: 2.5%;
   }
-  
+
 
   .edit-form {
     margin-left: 3%;
@@ -388,10 +391,7 @@ th+th {
 
 /*-----------------------Desktop-----------------------*/
 @media (min-width: 1024px) {
-  #add {
-    margin-left: 5%;
-    margin-right: 5%;
-  }
+ 
 
   #add input,
   select {
@@ -448,9 +448,9 @@ th+th {
     margin-top: 5%;
   }
 
-  #pie{
-    margin-top:5%;
-    margin-right:5%;
+  #pie {
+    margin-top: 5%;
+    margin-right: 5%;
   }
 
   #lines {
@@ -460,15 +460,16 @@ th+th {
 }
 
 @media (max-width: 481px) {
-  #intro-title{
-    font-size:3.5rem;
+  #intro-title {
+    font-size: 3.5rem;
   }
+
   #add {
     width: auto;
     margin-left: 15%;
     margin-right: 15%;
     border-radius: 25px;
     padding: 40;
-}
+  }
 
 }
