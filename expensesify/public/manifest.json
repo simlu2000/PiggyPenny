@@ -33,6 +33,11 @@
       "type": "image/png"
     },
     {
+      "src": "/icons/logo-167x167.png",
+      "sizes": "167x167",
+      "type": "image/png"
+    },
+    {
       "src": "/icons/logo-180x180.png",
       "sizes": "180x180",
       "type": "image/png"
