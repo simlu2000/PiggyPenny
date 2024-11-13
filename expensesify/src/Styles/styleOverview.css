@@ -19,8 +19,11 @@
 }
 
 #pie {
-  margin-left: 5%;
-  margin-top: 10%;
+  margin-left: 10%;
+  
+}
+#bars{
+  width:100%;
 }
 
 
@@ -107,12 +110,13 @@ select {
   margin-top: 5%;
 }
 
-#user-situation {
+.user-situation {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
   width: auto;
-  height: 400px;
+  height: 450px;
+  padding:25px;
   margin-right: 5%;
   margin-left: 5%;
   background-color: #E2E3F4;
@@ -144,6 +148,9 @@ select {
 
 #outflow {
   background-color: #FBA69D;
+}
+#bar-container{
+  margin-top:15%;
 }
 
 #exp-table {

@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
 import { NotificationManager } from 'react-notifications';
 import { auth, googleProvider } from '../Utils/firebaseConfig';
+import BarsChart from "./BarsCharts";
 
 const Overview = () => {
     const [user, setUser] = useState(null);
@@ -216,9 +217,12 @@ const Overview = () => {
                     {expenses.length > 0 ? (
                         <>
                             <h2 id="text-overview" className="title">Overview</h2>
-                            <div id="user-situation">
+                            <div className="user-situation">
                                 <LinesChart expenses={filteredExpenses} />
                                 <PieChart statsCategory={statsCategory} />
+                            </div>
+                            <div id="bar-container" className="user-situation">
+                            <BarsChart expenses={filteredExpenses} selectedYear={selectedYear}/>
                             </div>
 
                             {popupOpen && editedExpense && (
@@ -260,7 +264,7 @@ const Overview = () => {
                                 </Popup>
                             )}
 
-<h2 id="text-table" className="title">Your expenses</h2>
+                            <h2 id="text-table" className="title">Your expenses</h2>
                             <div id="data-area">
                                 <div className="user-container" id="balance">
                                     {balance >= 0 ? (
@@ -313,6 +317,7 @@ const Overview = () => {
                                                 {expense.category === "Travel" && <FontAwesomeIcon icon={faPlane} />}
                                                 {expense.category === "Salary" && <FontAwesomeIcon icon={faMoneyBillWave} />}
                                                 {expense.category === "Other" && <FontAwesomeIcon icon={faEllipsisH} />}
+                                                <span>{expense.category}</span>
                                             </td>
                                             {expense.type === "Revenue"
                                                 ? <td className="positive">{expense.amount}</td>
