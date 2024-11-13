@@ -220,9 +220,11 @@ const Overview = () => {
                             <div className="user-situation">
                                 <LinesChart expenses={filteredExpenses} />
                                 <PieChart statsCategory={statsCategory} />
-                            </div>
+                            </div>                            
+
+                            <h2 id="text-balance" className="title">Your balance</h2>
                             <div id="bar-container" className="user-situation">
-                            <BarsChart expenses={filteredExpenses} selectedYear={selectedYear}/>
+                                <BarsChart expenses={filteredExpenses} selectedYear={selectedYear} />
                             </div>
 
                             {popupOpen && editedExpense && (
@@ -264,7 +266,7 @@ const Overview = () => {
                                 </Popup>
                             )}
 
-                            <h2 id="text-table" className="title">Your expenses</h2>
+                            <h2 id="text-table" className="title">All your expenses</h2>
                             <div id="data-area">
                                 <div className="user-container" id="balance">
                                     {balance >= 0 ? (

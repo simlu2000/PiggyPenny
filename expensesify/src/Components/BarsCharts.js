@@ -45,12 +45,13 @@ const BarsChart = ({ expenses, selectedYear }) => {
                         horizontal: false,
                     }
                 },
+                colors: ['#FF5733'],
                 xaxis: { //asse X mesi
                     categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] ,
                     labels: {
                         style: {
                             colors: '#000000', 
-                            fontSize: '12px'
+                            fontSize: '1rem'
                         }
                     }
                 },
@@ -58,7 +59,7 @@ const BarsChart = ({ expenses, selectedYear }) => {
                     labels: {
                         style: {
                             colors: '#000000', 
-                            fontSize: '12px'
+                            fontSize: '1rem'
                         },
                         formatter: function (value) {
                             return value.toFixed(2);

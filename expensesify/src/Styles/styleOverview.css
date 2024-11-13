@@ -8,7 +8,7 @@
 
 #data-area {
   margin-left: 5%;
-  margin-top: 25px;
+  margin-top: 5px;
 
 }
 
@@ -20,12 +20,10 @@
 
 #pie {
   margin-left: 10%;
-  
 }
 #bars{
   width:100%;
 }
-
 
 #intro-container {
   display: flex;
@@ -149,8 +147,8 @@ select {
 #outflow {
   background-color: #FBA69D;
 }
-#bar-container{
-  margin-top:15%;
+#text-balance{
+  margin-top:5%;
 }
 
 #exp-table {
@@ -160,14 +158,14 @@ select {
   width: 90%;
   margin-left: 5%;
   margin-right: 5%;
-  margin-top: 5%;
+  margin-top: 15px;
   margin-bottom: 25%;
   position: absolute;
 }
 
 #text-table {
   margin-top: 5%;
-  margin-bottom: 0;
+  margin-bottom: -2%;
 }
 
 #exp-table tr {
