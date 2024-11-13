@@ -56,7 +56,7 @@ const Overview = () => {
         });
     };
 
-    const filteredExpenses = filterExpensesByPeriod(expenses, selectedDay, selectedMonth, selectedYear);
+    const filteredExpenses = filterExpensesByPeriod(expenses, selectedDay, selectedMonth, selectedYear) || [];
 
     // Calcolo del saldo totale
     useEffect(() => {
@@ -224,7 +224,7 @@ const Overview = () => {
 
                             <h2 id="text-balance" className="title">Your balance</h2>
                             <div id="bar-container" className="user-situation">
-                                <BarsChart expenses={filteredExpenses} selectedYear={selectedYear} />
+                            <BarsChart expenses={filteredExpenses || []} selectedYear={selectedYear} />
                             </div>
 
                             {popupOpen && editedExpense && (

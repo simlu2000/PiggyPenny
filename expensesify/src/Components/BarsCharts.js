@@ -11,7 +11,9 @@ const BarsChart = ({ expenses, selectedYear }) => {
     });
 
     useEffect(() => {
-
+        if (!expenses || expenses.length === 0) {
+            return; 
+        }
         const monthBalance = Array(12).fill(0); //Array 12 mesi
         //raggruppo spese per mese
         expenses.forEach((expense) => {
