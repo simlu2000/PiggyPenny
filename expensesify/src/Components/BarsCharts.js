@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
 
 const BarsChart = ({ expenses, selectedYear }) => {
+    if(!selectedYear){
+        selectedYear = new Date().getFullYear();
+    }
     const [chartData, setChartData] = useState({
         series: [],
         options: {}
     });
 
     useEffect(() => {
-        if (!expenses || expenses.length === 0) return; 
 
         const monthBalance = Array(12).fill(0); //Array 12 mesi
         //raggruppo spese per mese

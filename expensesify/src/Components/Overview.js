@@ -179,7 +179,7 @@ const Overview = () => {
     //Invio notifiche se il saldo è negativo
     useEffect(() => {
         if (totbalance < 0) {
-            NotificationManager.error('Balance alarm!', 'Your balance is negative', 5000);
+            NotificationManager.error('Balance alarm!', `Your balance is negative: ${totbalance} €`, 5000);
         }
     }, [totbalance]);
 
