@@ -127,18 +127,23 @@ const Overview = () => {
             .reduce((acc, expense) => acc + expense.amount, 0);
 
         const totbalance = revenues - outflows;
+        console.log("Calculated balance:", totbalance); // Log per verificare il calcolo
 
         return { revenues, outflows, totbalance };
     };
 
     const statsByCategory = (expenses) => {
+        if (!expenses || expenses.length === 0) {
+            return {}; // Ritorna un oggetto vuoto se non ci sono spese
+        }
+    
         return expenses.reduce((acc, expense) => {
             const { category, amount, type } = expense;
-
+    
             if (!acc[category]) {
                 acc[category] = { revenue: 0, outflows: 0 };
             }
-
+    
             if (type === "Revenue") {
                 acc[category].revenue += amount;
             } else if (type === "Outflows") {
@@ -147,10 +152,11 @@ const Overview = () => {
             return acc;
         }, {});
     };
+    
 
     const sortedExpenses = [...filteredExpenses].sort((a, b) => new Date(b.date) - new Date(a.date));
     const { revenues, outflows, totbalance } = statsByPeriod(filteredExpenses, period);
-    const statsCategory = statsByCategory(filteredExpenses);
+    const statsCategory = statsByCategory(filteredExpenses) || {};
 
     // Accesso Google
     const navigate = useNavigate();
@@ -190,31 +196,30 @@ const Overview = () => {
         } else {
           console.log("This browser does not support notifications.");
         }
-      };
-      
-      useEffect(() => {
-        requestNotificationPermission();
-      }, []);
+    };
 
-      //Invio notifiche se il saldo è negativo
-      useEffect(() => {
+    useEffect(() => {
+        requestNotificationPermission();
+    }, []);
+
+    //Invio notifiche se il saldo è negativo
+    useEffect(() => {
+        console.log("Checking balance for notifications:", totbalance); // Log per monitorare il valore del saldo
         if (totbalance < 0) {
-          console.log("Negative balance!");
-      
-          // Mostra notifica con toast
-          toast.error(`Balance alarm! Your balance is negative: ${totbalance} €`);
-      
-          // Mostra notifica di sistema se permesso
-          if (Notification.permission === "granted") {
-            new Notification("Balance Alarm", {
-              body: `Your balance is negative: ${totbalance} €`,
-              icon: logo 
-            });
-          }
+            console.log("Negative balance!");
+
+            // Mostra notifica con toast
+            toast.error(`Balance alarm! Your balance is negative: ${totbalance} €`);
+
+            // Mostra notifica di sistema se permesso
+            if (Notification.permission === "granted") {
+                new Notification("Balance Alarm", {
+                    body: `Your balance is negative: ${totbalance} €`,
+                    icon: logo 
+                });
+            }
         }
-      }, [totbalance]);
-      
-      
+    }, [totbalance]);
 
     return (
         <>
@@ -242,143 +247,19 @@ const Overview = () => {
                     <h1 id="intro-title">Expensesify</h1>
                     <h2 id="intro-subtitle">Sign in and manage your wallet</h2>
                     <button id="continueGoogle" onClick={handleGoogleSignIn}>
-                        <p>
-                            <FontAwesomeIcon icon={faGoogle} style={{ color: "#FFFFFF" }} />
-                            &nbsp;Continue with Google
-                        </p>
+                        <FontAwesomeIcon icon={faGoogle}/> Continue with Google
                     </button>
                 </div>
             ) : (
                 <>
-                    {expenses.length > 0 ? (
-                        <>
-                            <h2 id="text-overview" className="title">Overview</h2>
-                            <div className="user-situation">
-                                <LinesChart expenses={filteredExpenses} />
-                                <PieChart statsCategory={statsCategory} />
-                            </div>
-
-                            <h2 id="text-balance" className="title">Your balance</h2>
-                            <div id="bar-container" className="user-situation">
-                                <BarsChart expenses={filteredExpenses || []} selectedYear={selectedYear} />
-                            </div>
-
-                            {popupOpen && editedExpense && (
-                                <Popup
-                                    className="popup"
-                                    open={popupOpen}
-                                    onClose={() => setPopupOpen(false)}
-                                    modal closeOnDocumentClick
-                                    contentStyle={{ backgroundColor: '#E2E3F4', height: '50%', minWidth: '80%', maxWidth: '100%', maxHeight: '80vh' }}
-                                >
-                                    <button className="close-popup" onClick={() => setPopupOpen(false)}>
-                                        <FontAwesomeIcon icon={faRectangleXmark} />
-                                    </button>
-
-                                    <div className="edit-form">
-                                        <h2>Edit Expense</h2>
-                                        <form onSubmit={(e) => { e.preventDefault(); handleSaveEdit(); }}>
-                                            <input
-                                                type="text"
-                                                placeholder="Expense category"
-                                                value={editedExpense.category}
-                                                onChange={(e) => setEditedExpense({ ...editedExpense, category: e.target.value })}
-                                            />
-                                            <input
-                                                type="number"
-                                                placeholder="Amount"
-                                                value={editedExpense.amount}
-                                                onChange={(e) => setEditedExpense({ ...editedExpense, amount: Number(e.target.value) })}
-                                            />
-                                            <input
-                                                type="text"
-                                                placeholder="Description"
-                                                value={editedExpense.description}
-                                                onChange={(e) => setEditedExpense({ ...editedExpense, description: e.target.value })}
-                                            />
-                                            <button type="submit" className="save-edit"><FontAwesomeIcon icon={faSave} /> Save</button>
-                                        </form>
-                                    </div>
-                                </Popup>
-                            )}
-
-                            <h2 id="text-table" className="title">All your expenses</h2>
-                            <div id="data-area">
-                                <div className="user-container" id="balance">
-                                    {balance >= 0 ? (
-                                        <h3>
-                                            <FontAwesomeIcon icon={faScaleBalanced} /> {balance} €
-                                        </h3>
-                                    ) : (
-                                        <h3>
-                                            <FontAwesomeIcon icon={faScaleUnbalanced} /> -{Math.abs(balance)} €
-                                        </h3>
-                                    )}
-                                </div>
-                                <div className="user-container" id="revenue">
-                                    <h3>
-                                        <FontAwesomeIcon icon={faThumbsUp} /> + {Revenue} €
-                                    </h3>
-                                </div>
-                                <div className="user-container" id="outflow">
-                                    <h3>
-                                        <FontAwesomeIcon icon={faThumbsDown} /> {Outflows < 0 ? `- ${Math.abs(Outflows)} €` : `${Outflows} €`}
-                                    </h3>
-                                </div>
-                            </div>
-
-                            <table id="exp-table">
-
-                                <thead>
-                                    <tr>
-                                        <th>+/-</th>
-                                        <th>Category</th>
-                                        <th>Amount</th>
-                                        <th>Date</th>
-                                        <th>Description</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    {sortedExpenses.map((expense) => (
-                                        <tr key={expense.id}>
-                                            {expense.type === "Revenue"
-                                                ? <td className="positive"><FontAwesomeIcon icon={faThumbsUp} /></td>
-                                                : <td className="negative"><FontAwesomeIcon icon={faThumbsDown} /></td>
-                                            }
-                                            <td>
-                                                {expense.category === "Car" && <FontAwesomeIcon icon={faCar} />}
-                                                {expense.category === "Rent" && <FontAwesomeIcon icon={faHome} />}
-                                                {expense.category === "Utilities" && <FontAwesomeIcon icon={faLightbulb} />}
-                                                {expense.category === "Entertainment" && <FontAwesomeIcon icon={faFilm} />}
-                                                {expense.category === "Health" && <FontAwesomeIcon icon={faHeartbeat} />}
-                                                {expense.category === "Travel" && <FontAwesomeIcon icon={faPlane} />}
-                                                {expense.category === "Salary" && <FontAwesomeIcon icon={faMoneyBillWave} />}
-                                                {expense.category === "Other" && <FontAwesomeIcon icon={faEllipsisH} />}
-                                            </td>
-                                            {expense.type === "Revenue"
-                                                ? <td className="positive">{expense.amount}</td>
-                                                : <td className="negative">{expense.amount}</td>
-                                            }
-                                            <td>{expense.date}</td>
-                                            <td>{expense.description}
-                                                <button className="edit" onClick={() => handleEdit(expense)}>
-                                                    <FontAwesomeIcon icon={faEdit} />
-                                                </button>
-                                                <button className="remove" onClick={() => handleRemove(expense.id)}>
-                                                    <FontAwesomeIcon icon={faRemove} />
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </>
-                    ) : (
-                        <div className="empty">
-                            <h2 id="text-no-expenses">No expenses for this period</h2>
-                        </div>
-                    )}
+                    <div id="balanceBox">
+                        <h2>Balance: {balance}</h2>
+                        <h2>Total Revenues: {revenues}</h2>
+                        <h2>Total Outflows: {outflows}</h2>
+                    </div>
+                    <PieChart stats={statsCategory} />
+                    <BarsChart expenses={expenses} period={period} />
+                    <LinesChart expenses={expenses} period={period} />
                 </>
             )}
         </>
