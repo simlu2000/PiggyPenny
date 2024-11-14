@@ -32,6 +32,8 @@ h2 {
   }
   #filter-area{
     display: flex;
+    justify-content: center;
+    align-items: center;
     margin-left:5%;
     margin-top:2%;
     width:30%;
@@ -54,9 +56,13 @@ h2 {
   }
   @media (max-width: 481px) {
     #filter-area{
-      justify-content: start;
-      align-items: start;
+      justify-content: center;
+      align-items: center;
       width:90%;
+    }
+
+    #logo-intro{
+      width:35%;
     }
 
   }

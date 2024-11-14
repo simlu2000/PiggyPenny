@@ -10,10 +10,11 @@ import PieChart from "./PieChart";
 import LinesChart from "./LinesChart";
 import { useNavigate } from 'react-router-dom';
 import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
-import { NotificationManager } from 'react-notifications';
 import { auth, googleProvider } from '../Utils/firebaseConfig';
 import BarsChart from "./BarsCharts";
 import logo from '../Utils/logo-192x192.png'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Overview = () => {
     const [user, setUser] = useState(null);
@@ -177,16 +178,49 @@ const Overview = () => {
         return () => unsubscribe();
     }, []);
 
-    //Invio notifiche se il saldo è negativo
-    useEffect(() => {
-        if (totbalance < 0) {
-            NotificationManager.error('Balance alarm!', `Your balance is negative: ${totbalance} €`, 5000);
+    //richiesta permesso invio notifiche
+    const requestNotificationPermission = async () => {
+        if ("Notification" in window) {
+          const permission = await Notification.requestPermission();
+          if (permission === "granted") {
+            console.log("Notification permission granted.");
+          } else {
+            console.log("Notification permission denied.");
+          }
+        } else {
+          console.log("This browser does not support notifications.");
         }
-    }, [totbalance]);
+      };
+      
+      useEffect(() => {
+        requestNotificationPermission();
+      }, []);
+
+      //Invio notifiche se il saldo è negativo
+      useEffect(() => {
+        if (totbalance < 0) {
+          console.log("Negative balance!");
+      
+          // Mostra notifica con toast
+          toast.error(`Balance alarm! Your balance is negative: ${totbalance} €`);
+      
+          // Mostra notifica di sistema se permesso
+          if (Notification.permission === "granted") {
+            new Notification("Balance Alarm", {
+              body: `Your balance is negative: ${totbalance} €`,
+              icon: logo 
+            });
+          }
+        }
+      }, [totbalance]);
+      
+      
 
     return (
         <>
             {user && <Navbar addNewExpense={addNewExpense} />}
+
+            <ToastContainer />
 
             <div id="actions">
                 {user && (

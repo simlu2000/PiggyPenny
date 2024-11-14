@@ -41,7 +41,11 @@ const Navbar = ({ addNewExpense }) => {
     return (
         <>
             <header className="navbar">
-                <div id="nav-text"><img id="logo" src={logo} /> Expensesify</div>
+                {user? (
+                    <div id="nav-text"><img id="logo" src={logo} /> Hi {user.displayName}</div>
+                ): (
+                    <div id="nav-text"><img id="logo" src={logo} /> Hi, you are not logged</div>
+                )}
                 <div>
                     <button className="nav-btn" onClick={() => setPopupOpen(true)}>
                         <FontAwesomeIcon icon={faPlus} />
