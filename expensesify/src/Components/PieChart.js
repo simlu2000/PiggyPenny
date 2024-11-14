@@ -28,6 +28,9 @@ const PieChart = ({ statsCategory }) => {
     };
   }, []);
 
+  if (!statsCategory || Object.keys(statsCategory).length === 0) {
+    return <div>No data available for the pie chart.</div>;
+  }
   //config dati, etichette
   const chartData = {
     series: Object.values(statsCategory).map(
