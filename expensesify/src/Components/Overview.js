@@ -220,11 +220,11 @@ const Overview = () => {
                             <div className="user-situation">
                                 <LinesChart expenses={filteredExpenses} />
                                 <PieChart statsCategory={statsCategory} />
-                            </div>                            
+                            </div>
 
                             <h2 id="text-balance" className="title">Your balance</h2>
                             <div id="bar-container" className="user-situation">
-                            <BarsChart expenses={filteredExpenses || []} selectedYear={selectedYear} />
+                                <BarsChart expenses={filteredExpenses || []} selectedYear={selectedYear} />
                             </div>
 
                             {popupOpen && editedExpense && (

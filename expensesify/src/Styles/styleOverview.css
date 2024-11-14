@@ -58,7 +58,9 @@
   color: #FFFFFF;
   box-shadow: 1px 1px 1px 1px #FFFFFF;
 }
-
+#bar-container{
+  height:auto;
+}
 /*--------------------------Add expenses area-----------------------*/
 #add {
   width: auto;
@@ -475,6 +477,18 @@ th+th {
     margin-right: 15%;
     border-radius: 25px;
     padding: 40;
+  }
+  
+  .user-situation{
+    flex-direction: column;
+  }  
+  .user-container {
+    font-size: 0.8rem;
+    margin:5px;
+  }
+ 
+  #data-area{
+    margin-top:5%;
   }
 
 }

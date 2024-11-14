@@ -71,6 +71,7 @@ header {
     header {
         position: fixed;
         bottom: 0;
+        height:50px;
         left: 2%;
         right: 2%;
         width: auto;
