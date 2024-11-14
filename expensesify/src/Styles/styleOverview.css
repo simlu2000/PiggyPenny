@@ -367,7 +367,6 @@ th+th {
 
   #user-situation {
     flex-direction: column;
-    
     padding: 30px;
     height: auto;
   }
@@ -471,7 +470,7 @@ th+th {
   }
 
   #pie {
-    margin-top: 5%;
+    margin-top: 10%;
     margin-right: 5%;
   }
 

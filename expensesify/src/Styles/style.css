@@ -20,6 +20,10 @@ h2 {
   text-align: left;
   margin-left:7%;
 }
+#logo-intro{
+  width:15%;
+  border-radius: 35px;
+}
 
 
   /*-----------------------selectPeriod Area------------------------*/

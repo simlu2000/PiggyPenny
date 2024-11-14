@@ -13,6 +13,7 @@ import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from
 import { NotificationManager } from 'react-notifications';
 import { auth, googleProvider } from '../Utils/firebaseConfig';
 import BarsChart from "./BarsCharts";
+import logo from '../Utils/logo-192x192.png'
 
 const Overview = () => {
     const [user, setUser] = useState(null);
@@ -203,6 +204,7 @@ const Overview = () => {
 
             {!user ? (
                 <div id="intro-container">
+                    <img id="logo-intro" src={logo}/>
                     <h1 id="intro-title">Expensesify</h1>
                     <h2 id="intro-subtitle">Sign in and manage your wallet</h2>
                     <button id="continueGoogle" onClick={handleGoogleSignIn}>
