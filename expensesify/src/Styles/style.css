@@ -2,7 +2,7 @@ body {
   background: #BE93C5; 
   background: -webkit-linear-gradient(to right, #7BC6CC, #BE93C5);  /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #7BC6CC, #BE93C5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-   }
+}
 
 .App {
   text-align: center;
@@ -32,6 +32,7 @@ h2 {
     margin-top:2%;
     width:30%;
     padding:15px;
+    color:#FFFFFF;
     
   }
   #filter-area label{
@@ -47,8 +48,11 @@ h2 {
     margin-right:25px
 
   }
-  @media (max-width: 600px) {
+  @media (max-width: 481px) {
     #filter-area{
-      margin-left: -50%;
+      justify-content: start;
+      align-items: start;
+      width:90%;
     }
+
   }

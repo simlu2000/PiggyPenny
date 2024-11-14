@@ -319,7 +319,6 @@ const Overview = () => {
                                                 {expense.category === "Travel" && <FontAwesomeIcon icon={faPlane} />}
                                                 {expense.category === "Salary" && <FontAwesomeIcon icon={faMoneyBillWave} />}
                                                 {expense.category === "Other" && <FontAwesomeIcon icon={faEllipsisH} />}
-                                                <span>{expense.category}</span>
                                             </td>
                                             {expense.type === "Revenue"
                                                 ? <td className="positive">{expense.amount}</td>

@@ -105,9 +105,11 @@ select {
   background-color: #FFFFFF;
 }
 
+
 /*---------------------------Expenses Area-------------------------------*/
 #text-overview {
   margin-top: 5%;
+  color:#FFFFFF;
 }
 
 .user-situation {
@@ -151,6 +153,7 @@ select {
 }
 #text-balance{
   margin-top:5%;
+  color: #FFFFFF;
 }
 
 #exp-table {
@@ -168,6 +171,8 @@ select {
 #text-table {
   margin-top: 5%;
   margin-bottom: -2%;
+  color: #FFFFFF;
+
 }
 
 #exp-table tr {
@@ -240,6 +245,15 @@ th+th {
   margin-top: 5%;
 }
 
+@media (max-width: 990px) {
+#pie{
+  margin-top:10%;
+}
+#data-area{
+  margin-top:5%;
+}
+
+}
 
 /*-----------------------Mobile-----------------------*/
 @media (max-width: 600px) {
@@ -353,6 +367,7 @@ th+th {
 
   #user-situation {
     flex-direction: column;
+    
     padding: 30px;
     height: auto;
   }

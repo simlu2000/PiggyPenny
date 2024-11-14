@@ -8,6 +8,7 @@ import Popup from "reactjs-popup";
 import { onAuthStateChanged } from "firebase/auth";
 import { signOut } from "firebase/auth";
 import { auth } from "../Utils/firebaseConfig";
+import logo from '../Utils/logo-48x48.png'
 
 const Navbar = ({ addNewExpense }) => {
     const [popupOpen, setPopupOpen] = useState(false);
@@ -40,7 +41,7 @@ const Navbar = ({ addNewExpense }) => {
     return (
         <>
             <header className="navbar">
-                <h2 id="nav-text">Expensesify</h2>
+                <div id="nav-text"><img id="logo" src={logo} /> Expensesify</div>
                 <div>
                     <button className="nav-btn" onClick={() => setPopupOpen(true)}>
                         <FontAwesomeIcon icon={faPlus} />

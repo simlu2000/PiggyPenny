@@ -4,7 +4,7 @@ const Filters = ({ selectedDay, selectedMonth, selectedYear, setSelectedDay, set
     return (
         <div id="filter-area">
             <label>Day:</label>
-            <select onChange={(e) => setSelectedDay(parseInt(e.target.value))} value={selectedDay || ''}>
+            <select  onChange={(e) => setSelectedDay(parseInt(e.target.value))} value={selectedDay || ''}>
                 <option value="">All</option>
                 {[...Array(31).keys()].map((day) => (
                     <option key={day + 1} value={day + 1}>{day + 1}</option>
