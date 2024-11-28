@@ -21,8 +21,9 @@
 #pie {
   margin-left: 10%;
 }
-#bars{
-  width:100%;
+
+#bars {
+  width: 100%;
 }
 
 #intro-container {
@@ -58,9 +59,11 @@
   color: #FFFFFF;
   box-shadow: 1px 1px 1px 1px #FFFFFF;
 }
-#bar-container{
-  height:auto;
+
+#bar-container {
+  height: auto;
 }
+
 /*--------------------------Add expenses area-----------------------*/
 #add {
   width: auto;
@@ -109,7 +112,7 @@ select {
 /*---------------------------Expenses Area-------------------------------*/
 #text-overview {
   margin-top: 5%;
-  color:#FFFFFF;
+  color: #FFFFFF;
 }
 
 .user-situation {
@@ -118,7 +121,7 @@ select {
   align-items: flex-start;
   width: auto;
   height: 450px;
-  padding:25px;
+  padding: 15px;
   margin-right: 5%;
   margin-left: 5%;
   background-color: #E2E3F4;
@@ -151,8 +154,9 @@ select {
 #outflow {
   background-color: #FBA69D;
 }
-#text-balance{
-  margin-top:5%;
+
+#text-balance {
+  margin-top: 5%;
   color: #FFFFFF;
 }
 
@@ -246,12 +250,16 @@ th+th {
 }
 
 @media (max-width: 990px) {
-#pie{
-  margin-top:10%;
-}
-#data-area{
-  margin-top:5%;
-}
+  #pie {
+    margin-top: 10%;
+    margin-left: 5%;
+    margin-right: 5%;
+    width: auto;
+  }
+
+  #data-area {
+    margin-top: 5%;
+  }
 
 }
 
@@ -279,7 +287,15 @@ th+th {
   }
 
   #lines {
+    margin-left: 5%;
+    margin-right: 5%;
     width: 100%;
+  }
+
+  #pie {
+    margin-left: 15%;
+    margin-right: 15%;
+    width: auto;
   }
 
   #add-btn {
@@ -297,7 +313,12 @@ th+th {
   #user-situation {
     flex-direction: column;
     padding: 20px;
+
+  }
+
+  .user-situation {
     height: auto;
+
   }
 
   .user-container {
@@ -366,9 +387,15 @@ th+th {
   }
 
   #user-situation {
+    display: flex;
+    align-items: flex-start;
     flex-direction: column;
     padding: 30px;
     height: auto;
+  }
+
+  .user-situation {
+    flex-direction: column;
   }
 
   .user-container {
@@ -402,17 +429,11 @@ th+th {
     margin-top: 4%;
   }
 
-  #lines,
-  #pie {
-    margin-top: 10%;
-    margin-left: 0;
-  }
-
 }
 
 /*-----------------------Desktop-----------------------*/
 @media (min-width: 1024px) {
- 
+
 
   #add input,
   select {
@@ -480,6 +501,7 @@ th+th {
 
 }
 
+
 @media (max-width: 481px) {
   #intro-title {
     font-size: 3.5rem;
@@ -492,17 +514,30 @@ th+th {
     border-radius: 25px;
     padding: 40;
   }
-  
-  .user-situation{
+
+  .user-situation {
     flex-direction: column;
-  }  
+    padding:45px;
+  }
+
   .user-container {
     font-size: 0.8rem;
-    margin:5px;
+    margin: 5px;
   }
- 
-  #data-area{
-    margin-top:5%;
+
+  #data-area {
+    margin-top: 5%;
+  }
+
+  #pie {
+    margin-left: 0;
+  }
+
+}
+
+@media (max-width: 481px) {
+  .user-situation {
+    padding:15px;
   }
 
 }
