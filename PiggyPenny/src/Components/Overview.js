@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faThumbsDown, faScaleBalanced, faScaleUnbalanced, faRemove, faEdit, faRectangleXmark, faSave, faPlus, faCar, faHome, faLightbulb, faFilm, faHeartbeat, faPlane, faMoneyBillWave, faEllipsisH } from "@fortawesome/free-solid-svg-icons";
-import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import 'reactjs-popup/dist/index.css';
 import Popup from "reactjs-popup";
 import Navbar from './Navbar';
@@ -9,8 +8,8 @@ import Filters from "./Filters";
 import PieChart from "./PieChart";
 import LinesChart from "./LinesChart";
 import { useNavigate } from 'react-router-dom';
-import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
-import { auth, googleProvider } from '../Utils/firebaseConfig';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { auth } from '../Utils/firebaseConfig';
 import BarsChart from "./BarsCharts";
 import logo from '../Utils/logo-192x192.png'
 import { ToastContainer, toast } from 'react-toastify';
@@ -29,6 +28,7 @@ const Overview = () => {
     const [selectedDay, setSelectedDay] = useState(null);
     const [selectedMonth, setSelectedMonth] = useState(null);
     const [selectedYear, setSelectedYear] = useState(null);
+    const navigate = useNavigate();
 
     // Caricamento spese da local storage
     useEffect(() => {
@@ -148,24 +148,10 @@ const Overview = () => {
         }, {});
     };
 
-    
+
     const sortedExpenses = [...filteredExpenses].sort((a, b) => new Date(b.date) - new Date(a.date));
     const { revenues, outflows, totbalance } = statsByPeriod(filteredExpenses, period);
     const statsCategory = statsByCategory(filteredExpenses);
-
-    // Accesso Google
-    const navigate = useNavigate();
-    const handleGoogleSignIn = async () => {
-        try {
-            const result = await signInWithPopup(auth, googleProvider);
-            const user = result.user;
-            console.log("User logged in: ", user);
-            setUser(user);
-            navigate('/');
-        } catch (error) {
-            console.error("Error sign in with Google: ", error);
-        }
-    };
 
     // Aggiornamento stato utente
     useEffect(() => {
@@ -182,40 +168,40 @@ const Overview = () => {
     //richiesta permesso invio notifiche
     const requestNotificationPermission = async () => {
         if ("Notification" in window) {
-          const permission = await Notification.requestPermission();
-          if (permission === "granted") {
-            console.log("Notification permission granted.");
-          } else {
-            console.log("Notification permission denied.");
-          }
+            const permission = await Notification.requestPermission();
+            if (permission === "granted") {
+                console.log("Notification permission granted.");
+            } else {
+                console.log("Notification permission denied.");
+            }
         } else {
-          console.log("This browser does not support notifications.");
+            console.log("This browser does not support notifications.");
         }
-      };
-      
-      useEffect(() => {
-        requestNotificationPermission();
-      }, []);
+    };
 
-      //Invio notifiche se il saldo è negativo
-      useEffect(() => {
+    useEffect(() => {
+        requestNotificationPermission();
+    }, []);
+
+    //Invio notifiche se il saldo è negativo
+    useEffect(() => {
         if (totbalance < 0) {
-          console.log("Negative balance!");
-      
-          // Mostra notifica con toast
-          toast.error(`Balance alarm! Your balance is negative: ${totbalance} €`);
-      
-          // Mostra notifica di sistema se permesso
-          if (Notification.permission === "granted") {
-            new Notification("Balance Alarm", {
-              body: `Your balance is negative: ${totbalance} €`,
-              icon: logo 
-            });
-          }
+            console.log("Negative balance!");
+
+            // Mostra notifica con toast
+            toast.error(`Balance alarm! Your balance is negative: ${totbalance} €`);
+
+            // Mostra notifica di sistema se permesso
+            if (Notification.permission === "granted") {
+                new Notification("Balance Alarm", {
+                    body: `Your balance is negative: ${totbalance} €`,
+                    icon: logo
+                });
+            }
         }
-      }, [totbalance]);
-      
-      
+    }, [totbalance]);
+
+
 
     return (
         <>
@@ -239,13 +225,12 @@ const Overview = () => {
 
             {!user ? (
                 <div id="intro-container">
-                    <img id="logo-intro" src={logo}/>
-                    <h1 id="intro-title">Expensesify</h1>
+                    <img id="logo-intro" src={logo} />
+                    <h1 id="intro-title">PiggyPenny</h1>
                     <h2 id="intro-subtitle">Sign in and manage your wallet</h2>
-                    <button id="continueGoogle" onClick={handleGoogleSignIn}>
+                    <button id="continueGoogle">
                         <p>
-                            <FontAwesomeIcon icon={faGoogle} style={{ color: "#FFFFFF" }} />
-                            &nbsp;Continue with Google
+                            Continue
                         </p>
                     </button>
                 </div>
@@ -269,115 +254,53 @@ const Overview = () => {
                                     className="popup"
                                     open={popupOpen}
                                     onClose={() => setPopupOpen(false)}
-                                    modal closeOnDocumentClick
-                                    contentStyle={{ backgroundColor: '#E2E3F4', height: '50%', minWidth: '80%', maxWidth: '100%', maxHeight: '80vh' }}
+                                    modal
+                                    nested
                                 >
-                                    <button className="close-popup" onClick={() => setPopupOpen(false)}>
-                                        <FontAwesomeIcon icon={faRectangleXmark} />
-                                    </button>
-
-                                    <div className="edit-form">
-                                        <h2>Edit Expense</h2>
-                                        <form onSubmit={(e) => { e.preventDefault(); handleSaveEdit(); }}>
-                                            <input
-                                                type="text"
-                                                placeholder="Expense category"
-                                                value={editedExpense.category}
-                                                onChange={(e) => setEditedExpense({ ...editedExpense, category: e.target.value })}
-                                            />
-                                            <input
-                                                type="number"
-                                                placeholder="Amount"
-                                                value={editedExpense.amount}
-                                                onChange={(e) => setEditedExpense({ ...editedExpense, amount: Number(e.target.value) })}
-                                            />
-                                            <input
-                                                type="text"
-                                                placeholder="Description"
-                                                value={editedExpense.description}
-                                                onChange={(e) => setEditedExpense({ ...editedExpense, description: e.target.value })}
-                                            />
-                                            <button type="submit" className="save-edit"><FontAwesomeIcon icon={faSave} /> Save</button>
-                                        </form>
+                                    <div>
+                                        <input
+                                            type="text"
+                                            placeholder="Category"
+                                            value={editedExpense.category || ""}
+                                            onChange={(e) =>
+                                                setEditedExpense((prev) => ({ ...prev, category: e.target.value }))
+                                            }
+                                        />
+                                        <input
+                                            type="number"
+                                            placeholder="Amount"
+                                            value={editedExpense.amount || ""}
+                                            onChange={(e) =>
+                                                setEditedExpense((prev) => ({ ...prev, amount: parseFloat(e.target.value) }))
+                                            }
+                                        />
+                                        <button onClick={handleSaveEdit}>
+                                            <FontAwesomeIcon icon={faSave} />
+                                        </button>
                                     </div>
                                 </Popup>
                             )}
 
-                            <h2 id="text-table" className="title">All your expenses</h2>
-                            <div id="data-area">
-                                <div className="user-container" id="balance">
-                                    {balance >= 0 ? (
-                                        <h3>
-                                            <FontAwesomeIcon icon={faScaleBalanced} /> {balance} €
-                                        </h3>
-                                    ) : (
-                                        <h3>
-                                            <FontAwesomeIcon icon={faScaleUnbalanced} /> -{Math.abs(balance)} €
-                                        </h3>
-                                    )}
-                                </div>
-                                <div className="user-container" id="revenue">
-                                    <h3>
-                                        <FontAwesomeIcon icon={faThumbsUp} /> + {Revenue} €
-                                    </h3>
-                                </div>
-                                <div className="user-container" id="outflow">
-                                    <h3>
-                                        <FontAwesomeIcon icon={faThumbsDown} /> {Outflows < 0 ? `- ${Math.abs(Outflows)} €` : `${Outflows} €`}
-                                    </h3>
-                                </div>
-                            </div>
-
-                            <table id="exp-table">
-
-                                <thead>
-                                    <tr>
-                                        <th>+/-</th>
-                                        <th>Category</th>
-                                        <th>Amount</th>
-                                        <th>Date</th>
-                                        <th>Description</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
+                            <h2 id="text-expenses" className="title">Your expenses</h2>
+                            <div id="expenses-list" className="user-situation">
+                                <ul>
                                     {sortedExpenses.map((expense) => (
-                                        <tr key={expense.id}>
-                                            {expense.type === "Revenue"
-                                                ? <td className="positive"><FontAwesomeIcon icon={faThumbsUp} /></td>
-                                                : <td className="negative"><FontAwesomeIcon icon={faThumbsDown} /></td>
-                                            }
-                                            <td>
-                                                {expense.category === "Car" && <FontAwesomeIcon icon={faCar} />}
-                                                {expense.category === "Rent" && <FontAwesomeIcon icon={faHome} />}
-                                                {expense.category === "Utilities" && <FontAwesomeIcon icon={faLightbulb} />}
-                                                {expense.category === "Entertainment" && <FontAwesomeIcon icon={faFilm} />}
-                                                {expense.category === "Health" && <FontAwesomeIcon icon={faHeartbeat} />}
-                                                {expense.category === "Travel" && <FontAwesomeIcon icon={faPlane} />}
-                                                {expense.category === "Salary" && <FontAwesomeIcon icon={faMoneyBillWave} />}
-                                                {expense.category === "Other" && <FontAwesomeIcon icon={faEllipsisH} />}
-                                            </td>
-                                            {expense.type === "Revenue"
-                                                ? <td className="positive">{expense.amount}</td>
-                                                : <td className="negative">{expense.amount}</td>
-                                            }
-                                            <td>{expense.date}</td>
-                                            <td>{expense.description}
-                                                <button className="edit" onClick={() => handleEdit(expense)}>
-                                                    <FontAwesomeIcon icon={faEdit} />
-                                                </button>
-                                                <button className="remove" onClick={() => handleRemove(expense.id)}>
-                                                    <FontAwesomeIcon icon={faRemove} />
-                                                </button>
-                                            </td>
-                                        </tr>
+                                        <li key={expense.id}>
+                                            <span>{expense.category}</span> - <span>{expense.amount} €</span> - <span>{expense.date}</span>
+                                            <button onClick={() => handleEdit(expense)}>
+                                                <FontAwesomeIcon icon={faEdit} />
+                                            </button>
+                                            <button onClick={() => handleRemove(expense.id)}>
+                                                <FontAwesomeIcon icon={faRemove} />
+                                            </button>
+                                        </li>
                                     ))}
-                                </tbody>
-                            </table>
+                                </ul>
+                            </div>
                         </>
                     ) : (
-                        <div className="empty">
-                            <h2 id="text-no-expenses">No expenses for this period</h2>
+                        <div id="no-expenses-message">
+                            <h2>No expenses found. Start by adding some!</h2>
                         </div>
                     )}
                 </>
