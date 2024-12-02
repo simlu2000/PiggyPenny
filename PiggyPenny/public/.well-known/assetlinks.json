@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.piggypennyapp.twa",
+        "sha256_cert_fingerprints": ["DF:32:3C:1A:BA:1A:A8:5E:5C:1F:B7:78:C9:D9:1F:F3:C1:25:8E:55:28:1E:90:1B:0A:17:10:20:A2:FB:8B:B6"]
+      }
+    }]
