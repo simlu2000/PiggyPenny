@@ -3,6 +3,6 @@
       "target": {
         "namespace": "android_app",
         "package_name": "com.piggypennyapp.twa",
-        "sha256_cert_fingerprints": ["06:E9:52:AE:A8:9F:5A:65:9E:5A:6B:72:37:CB:55:DC:58:7D:99:E2:32:29:5E:76:99:78:39:1B:FE:1D:D3:55"]
+        "sha256_cert_fingerprints": ["C4:35:A8:01:85:41:A7:7A:F9:A9:EC:72:E7:52:FF:AC:50:A5:F6:98:E0:80:66:1E:4D:DE:B2:7D:26:8B:C2:68"]
       }
     }]
