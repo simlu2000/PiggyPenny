@@ -62,9 +62,17 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ], 
+  ],
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#ffffff",
+  "description": "With PiggyPenny you can add all your expenses (also outflows) and keep the control of your wallet. The user experience contains some statistics charts (line, bar and pie chart) and an expenses table.",
+  "lang": "en",
+  "categories": [
+    "finance",
+    "lifestyle",
+    "productivity",
+    "utilities"
+  ]
 }
