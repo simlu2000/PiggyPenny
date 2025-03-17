@@ -217,7 +217,7 @@ const Overview = () => {
       
       
 
-    return (
+      return (
         <>
             {user && <Navbar addNewExpense={addNewExpense} />}
 
@@ -239,8 +239,8 @@ const Overview = () => {
 
             {!user ? (
                 <div id="intro-container">
-                    <img id="logo-intro" src={logo}/>
-                    <h1 id="intro-title">Expensesify</h1>
+                    <img id="logo-intro" src={logo} alt="Logo" />
+                    <h1 id="intro-title">PiggyPenny</h1>
                     <h2 id="intro-subtitle">Sign in and manage your wallet</h2>
                     <button id="continueGoogle" onClick={handleGoogleSignIn}>
                         <p>
@@ -270,7 +270,7 @@ const Overview = () => {
                                     open={popupOpen}
                                     onClose={() => setPopupOpen(false)}
                                     modal closeOnDocumentClick
-                                    contentStyle={{ backgroundColor: '#E2E3F4', height: '50%', minWidth: '80%', maxWidth: '100%', maxHeight: '80vh' }}
+                                    contentStyle={{ backgroundColor: '#E2E3F4', height: 'auto', minWidth: '80%', maxWidth: '90%', maxHeight: '80vh', overflowY: 'auto' }}
                                 >
                                     <button className="close-popup" onClick={() => setPopupOpen(false)}>
                                         <FontAwesomeIcon icon={faRectangleXmark} />
@@ -279,24 +279,9 @@ const Overview = () => {
                                     <div className="edit-form">
                                         <h2>Edit Expense</h2>
                                         <form onSubmit={(e) => { e.preventDefault(); handleSaveEdit(); }}>
-                                            <input
-                                                type="text"
-                                                placeholder="Expense category"
-                                                value={editedExpense.category}
-                                                onChange={(e) => setEditedExpense({ ...editedExpense, category: e.target.value })}
-                                            />
-                                            <input
-                                                type="number"
-                                                placeholder="Amount"
-                                                value={editedExpense.amount}
-                                                onChange={(e) => setEditedExpense({ ...editedExpense, amount: Number(e.target.value) })}
-                                            />
-                                            <input
-                                                type="text"
-                                                placeholder="Description"
-                                                value={editedExpense.description}
-                                                onChange={(e) => setEditedExpense({ ...editedExpense, description: e.target.value })}
-                                            />
+                                            <input type="text" placeholder="Expense category" value={editedExpense.category} onChange={(e) => setEditedExpense({ ...editedExpense, category: e.target.value })} />
+                                            <input type="number" placeholder="Amount" value={editedExpense.amount} onChange={(e) => setEditedExpense({ ...editedExpense, amount: Number(e.target.value) })} />
+                                            <input type="text" placeholder="Description" value={editedExpense.description} onChange={(e) => setEditedExpense({ ...editedExpense, description: e.target.value })} />
                                             <button type="submit" className="save-edit"><FontAwesomeIcon icon={faSave} /> Save</button>
                                         </form>
                                     </div>
@@ -307,29 +292,20 @@ const Overview = () => {
                             <div id="data-area">
                                 <div className="user-container" id="balance">
                                     {balance >= 0 ? (
-                                        <h3>
-                                            <FontAwesomeIcon icon={faScaleBalanced} /> {balance} €
-                                        </h3>
+                                        <h3><FontAwesomeIcon icon={faScaleBalanced} /> {balance} €</h3>
                                     ) : (
-                                        <h3>
-                                            <FontAwesomeIcon icon={faScaleUnbalanced} /> -{Math.abs(balance)} €
-                                        </h3>
+                                        <h3><FontAwesomeIcon icon={faScaleUnbalanced} /> -{Math.abs(balance)} €</h3>
                                     )}
                                 </div>
                                 <div className="user-container" id="revenue">
-                                    <h3>
-                                        <FontAwesomeIcon icon={faThumbsUp} /> + {Revenue} €
-                                    </h3>
+                                    <h3><FontAwesomeIcon icon={faThumbsUp} /> + {Revenue} €</h3>
                                 </div>
                                 <div className="user-container" id="outflow">
-                                    <h3>
-                                        <FontAwesomeIcon icon={faThumbsDown} /> {Outflows < 0 ? `- ${Math.abs(Outflows)} €` : `${Outflows} €`}
-                                    </h3>
+                                    <h3><FontAwesomeIcon icon={faThumbsDown} /> {Outflows < 0 ? `- ${Math.abs(Outflows)} €` : `${Outflows} €`}</h3>
                                 </div>
                             </div>
 
                             <table id="exp-table">
-
                                 <thead>
                                     <tr>
                                         <th>+/-</th>
@@ -339,14 +315,10 @@ const Overview = () => {
                                         <th>Description</th>
                                     </tr>
                                 </thead>
-
                                 <tbody>
                                     {sortedExpenses.map((expense) => (
                                         <tr key={expense.id}>
-                                            {expense.type === "Revenue"
-                                                ? <td className="positive"><FontAwesomeIcon icon={faThumbsUp} /></td>
-                                                : <td className="negative"><FontAwesomeIcon icon={faThumbsDown} /></td>
-                                            }
+                                            {expense.type === "Revenue" ? <td className="positive"><FontAwesomeIcon icon={faThumbsUp} /></td> : <td className="negative"><FontAwesomeIcon icon={faThumbsDown} /></td>}
                                             <td>
                                                 {expense.category === "Car" && <FontAwesomeIcon icon={faCar} />}
                                                 {expense.category === "Rent" && <FontAwesomeIcon icon={faHome} />}
@@ -357,18 +329,11 @@ const Overview = () => {
                                                 {expense.category === "Salary" && <FontAwesomeIcon icon={faMoneyBillWave} />}
                                                 {expense.category === "Other" && <FontAwesomeIcon icon={faEllipsisH} />}
                                             </td>
-                                            {expense.type === "Revenue"
-                                                ? <td className="positive">{expense.amount}</td>
-                                                : <td className="negative">{expense.amount}</td>
-                                            }
+                                            {expense.type === "Revenue" ? <td className="positive">{expense.amount}</td> : <td className="negative">{expense.amount}</td>}
                                             <td>{expense.date}</td>
                                             <td>{expense.description}
-                                                <button className="edit" onClick={() => handleEdit(expense)}>
-                                                    <FontAwesomeIcon icon={faEdit} />
-                                                </button>
-                                                <button className="remove" onClick={() => handleRemove(expense.id)}>
-                                                    <FontAwesomeIcon icon={faRemove} />
-                                                </button>
+                                                <button className="edit" onClick={() => handleEdit(expense)}><FontAwesomeIcon icon={faEdit} /></button>
+                                                <button className="remove" onClick={() => handleRemove(expense.id)}><FontAwesomeIcon icon={faRemove} /></button>
                                             </td>
                                         </tr>
                                     ))}
