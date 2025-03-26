@@ -213,7 +213,6 @@ th+th {
   width: auto;
   margin-left: 5%;
   margin-right: 5%;
-  background-color: #E2E3F4;
   border-radius: 25px;
 
 }
@@ -234,6 +233,15 @@ th+th {
   font-size: 1.5rem;
 }
 
+/* edit expense area*/
+.save-edit{
+font-size: 1.5rem;
+border-radius: 25px;
+margin-top:25%;
+background-color: #000000;
+border:none;
+color:#ffffff;
+}
 /*-----------------------Charts area------------------*/
 #text-no-expenses{
   color:#FFFFFF;
