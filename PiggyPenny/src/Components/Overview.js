@@ -17,7 +17,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Lottie from 'react-lottie';
 import animationData from '../animations/Animation - 1742988499597.json';
-
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 
 
 const Overview = () => {
@@ -42,7 +42,7 @@ const Overview = () => {
     const [selectedDay, setSelectedDay] = useState(null);
     const [selectedMonth, setSelectedMonth] = useState(null);
     const [selectedYear, setSelectedYear] = useState(null);
-    const [windowSize,setWindowSize]=useState(window.innerWidth);
+    const [windowSize, setWindowSize] = useState(window.innerWidth);
 
     // Caricamento spese da local storage
     useEffect(() => {
@@ -230,17 +230,17 @@ const Overview = () => {
     }, [totbalance]);
 
 
-    useEffect( () => {
+    useEffect(() => {
         const handleResize = () => {
             setWindowSize(window.innerWidth);
         }
-        
-        window.addEventListener('resize',handleResize);
+
+        window.addEventListener('resize', handleResize);
 
         return () => {
-            window.removeEventListener('resize',handleResize);
+            window.removeEventListener('resize', handleResize);
         };
-    },[]);
+    }, []);
 
     return (
         <>
@@ -330,40 +330,43 @@ const Overview = () => {
                                 </div>
                             </div>
 
-                            <table id="exp-table">
-                                <thead>
-                                    <tr>
-                                        <th>+/-</th>
-                                        <th>Category</th>
-                                        <th>Amount</th>
-                                        <th>Date</th>
-                                        <th>Description</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {sortedExpenses.map((expense) => (
-                                        <tr key={expense.id}>
-                                            {expense.type === "Revenue" ? <td className="positive"><FontAwesomeIcon icon={faThumbsUp} /></td> : <td className="negative"><FontAwesomeIcon icon={faThumbsDown} /></td>}
-                                            <td>
-                                                {expense.category === "Car" && <FontAwesomeIcon icon={faCar} />}
-                                                {expense.category === "Rent" && <FontAwesomeIcon icon={faHome} />}
-                                                {expense.category === "Utilities" && <FontAwesomeIcon icon={faLightbulb} />}
-                                                {expense.category === "Entertainment" && <FontAwesomeIcon icon={faFilm} />}
-                                                {expense.category === "Health" && <FontAwesomeIcon icon={faHeartbeat} />}
-                                                {expense.category === "Travel" && <FontAwesomeIcon icon={faPlane} />}
-                                                {expense.category === "Salary" && <FontAwesomeIcon icon={faMoneyBillWave} />}
-                                                {expense.category === "Other" && <FontAwesomeIcon icon={faEllipsisH} />}
-                                            </td>
-                                            {expense.type === "Revenue" ? <td className="positive">{expense.amount}</td> : <td className="negative">{expense.amount}</td>}
-                                            <td>{expense.date}</td>
-                                            <td>{expense.description}
-                                                <button className="edit" onClick={() => handleEdit(expense)}><FontAwesomeIcon icon={faEdit} /></button>
-                                                <button className="remove" onClick={() => handleRemove(expense.id)}><FontAwesomeIcon icon={faRemove} /></button>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                            <TableContainer component={Paper}>
+                                <Table id="exp-table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell>+/-</TableCell>
+                                            <TableCell>Category</TableCell>
+                                            <TableCell>Amount</TableCell>
+                                            <TableCell>Date</TableCell>
+                                            <TableCell>Description</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {sortedExpenses.map((expense) => (
+                                            <TableRow key={expense.id}>
+                                                <TableCell>{expense.type === "Revenue" ? <FontAwesomeIcon icon={faThumbsUp} /> : <FontAwesomeIcon icon={faThumbsDown} />}</TableCell>
+                                                <TableCell>
+                                                    {expense.category === "Car" && <FontAwesomeIcon icon={faCar} />}
+                                                    {expense.category === "Rent" && <FontAwesomeIcon icon={faHome} />}
+                                                    {expense.category === "Utilities" && <FontAwesomeIcon icon={faLightbulb} />}
+                                                    {expense.category === "Entertainment" && <FontAwesomeIcon icon={faFilm} />}
+                                                    {expense.category === "Health" && <FontAwesomeIcon icon={faHeartbeat} />}
+                                                    {expense.category === "Travel" && <FontAwesomeIcon icon={faPlane} />}
+                                                    {expense.category === "Salary" && <FontAwesomeIcon icon={faMoneyBillWave} />}
+                                                    {expense.category === "Other" && <FontAwesomeIcon icon={faEllipsisH} />}
+                                                </TableCell>
+                                                <TableCell>{expense.type === "Revenue" ? expense.amount : expense.amount}</TableCell>
+                                                <TableCell>{expense.date}</TableCell>
+                                                <TableCell>
+                                                    {expense.description}
+                                                    <button className="edit" onClick={() => handleEdit(expense)}><FontAwesomeIcon icon={faEdit} /></button>
+                                                    <button className="remove" onClick={() => handleRemove(expense.id)}><FontAwesomeIcon icon={faRemove} /></button>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
                         </>
                     ) : (
                         <div className="empty">

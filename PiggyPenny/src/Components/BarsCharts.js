@@ -2,10 +2,8 @@ import React, { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
 
 const BarsChart = ({ expenses = [], selectedYear }) => {
+    selectedYear = selectedYear || new Date().getFullYear();
 
-    if (!selectedYear) {
-        selectedYear = new Date().getFullYear();
-    }
     const [chartData, setChartData] = useState({
         series: [{ name: "Your Balance", data: Array(12).fill(0) }],
         options: {
@@ -23,70 +21,39 @@ const BarsChart = ({ expenses = [], selectedYear }) => {
                 }
             },
         }
-        });
+    });
 
     useEffect(() => {
         if (!expenses || expenses.length === 0) {
             return;
         }
-        const monthBalance = Array(12).fill(0); //Array 12 mesi
-        //raggruppo spese per mese
+
+        const monthBalance = Array(12).fill(0); // Array per i 12 mesi
+
+        // Raggruppo spese per mese
         expenses.forEach((expense) => {
-            const ExpDate = new Date(expense.date); // Prendo la data della spesa
+            const expDate = new Date(expense.date); // Prende la data della spesa
 
-            if (selectedYear && ExpDate.getFullYear() === selectedYear) { //vedo se l'anno corrisponde
-                const ExpMonth = ExpDate.getMonth(); //ottengo il mese (0-11)
+            if (expDate.getFullYear() === selectedYear) { // Controlla se l'anno corrisponde
+                const expMonth = expDate.getMonth(); // Ottiene il mese (0-11)
 
-                // Verifico tipo di spesa
+                // Verifica il tipo di spesa
                 if (expense.type === "Outflows") {
-                    monthBalance[ExpMonth] += expense.amount;
+                    monthBalance[expMonth] += expense.amount;
                 } else if (expense.type === "Revenue") {
-                    monthBalance[ExpMonth] -= expense.amount;
+                    monthBalance[expMonth] -= expense.amount;
                 }
             }
         });
 
-        //aggiorno dati grafico
-        setChartData({
+        // Aggiorna i dati del grafico
+        setChartData((prevData) => ({
+            ...prevData,
             series: [{
                 name: "Your Balance",
-                data: monthBalance ? monthBalance : []
-            }],
-            options: {
-                chart: {
-                    type: 'bar',
-                    height: 350,
-
-                },
-                plotOptions: {
-                    bar: {
-                        borderRadius: 5,
-                        horizontal: false,
-                    }
-                },
-                colors: ['#FF5733'],
-                xaxis: { //asse X mesi
-                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                    labels: {
-                        style: {
-                            colors: '#000000',
-                            fontSize: '1rem'
-                        }
-                    }
-                },
-                yaxis: {
-                    labels: {
-                        style: {
-                            colors: '#000000',
-                            fontSize: '1rem'
-                        },
-                        formatter: function (value) {
-                            return value.toFixed(2);
-                        }
-                    }
-                },
-            }
-        });
+                data: monthBalance
+            }]
+        }));
     }, [expenses, selectedYear]);
 
     return (
@@ -97,7 +64,6 @@ const BarsChart = ({ expenses = [], selectedYear }) => {
                 type="bar"
                 height={350}
                 width={'100%'}
-
             />
         </div>
     );

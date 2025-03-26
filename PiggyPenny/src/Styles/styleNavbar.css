@@ -2,7 +2,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #ffffff;
+    background-color: transparent;
     -webkit-backdrop-filter: blur(5px);
     backdrop-filter: blur(5px);
     padding: 15px;
@@ -17,16 +17,9 @@ header {
 }
 
 #nav-text {
-    font-size: 2rem;
-    padding: 5px;
+    font-size: 1.8rem;
     font-weight: bold;
-    color: #FFFFFF;
-}
-
-/* Bottom app bar style */
-.mobile-bottom-nav {
-    background-color: #fff;
-    border-top: 1px solid #ddd;
+    color:#FFFFFF;
 }
 
 /* Popup al centro dello schermo */
@@ -71,7 +64,16 @@ header {
 
 @media (max-width: 600px) {
     header {
-        display: none;
+        position: fixed;
+        bottom: 0;
+        height: 50px;
+        left: 2%;
+        right: 2%;
+        width: auto;
+        margin: 0;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
     }
 
     .popup-content {
@@ -90,11 +92,37 @@ header {
         font-size: 1.4rem;
         border: 2px solid #FFFFFF;
     }
+
 }
 
 @media (max-width: 481px) {
     header {
+        position: fixed;
+        bottom: 0;
+        height: 50px;
+        left: 2%;
+        right: 2%;
+        width: auto;
+        margin: 0;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 10px;
+        background-color: transparent;
+        
+
+    }
+
+    #nav-text {
         display: none;
+
+    }
+
+    .nav-btn {
+        align-items: center;
+        justify-content: center;
+        margin: 10px;
+        font-size: 1.4rem;
     }
 
     .popup-content {

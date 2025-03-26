@@ -124,7 +124,7 @@ select {
   padding: 15px;
   margin-right: 5%;
   margin-left: 5%;
-  background-color: #E2E3F4;
+  background-color: #FFFFFF;
   -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(5px);
   box-shadow: 1px 1px 1px 1px #E2E3F4;
@@ -144,7 +144,7 @@ select {
 }
 
 #balance {
-  background-color: #E2E3F4;
+  background-color: #FFFFFF;
 }
 
 #revenue {
@@ -162,7 +162,7 @@ select {
 
 #exp-table {
   box-shadow: 1px 1px 1px 1px #E2E3F4;
-  background-color: #E2E3F4;
+  background-color: #FFFFFF;
   border-radius: 25px;
   max-width: 90%;
   margin-left: 5%;
