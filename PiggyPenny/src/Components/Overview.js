@@ -15,8 +15,21 @@ import BarsChart from "./BarsCharts";
 import logo from '../Utils/logo-192x192.png'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Lottie from 'react-lottie';
+import animationData from '../animations/Animation - 1742988499597.json';
 
+
+    
 const Overview = () => {
+    const defaultOptions = {
+        loop: true,
+        autoplay: true,
+        animationData: animationData,
+        rendererSettings: {
+          preserveAspectRatio: 'xMidYMid slice',
+        }
+    }
+    
     const [user, setUser] = useState(null);
     const [expenses, setExpenses] = useState([]);
     const [balance, setBalance] = useState(0);
@@ -239,7 +252,8 @@ const Overview = () => {
 
             {!user ? (
                 <div id="intro-container">
-                    <img id="logo-intro" src={logo} alt="Logo" />
+                          <Lottie options={defaultOptions} height={400} width={400} />
+
                     <h1 id="intro-title">PiggyPenny</h1>
                     <h2 id="intro-subtitle">Sign in and manage your wallet</h2>
                     <button id="continueGoogle" onClick={handleGoogleSignIn}>
