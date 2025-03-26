@@ -19,17 +19,17 @@ import Lottie from 'react-lottie';
 import animationData from '../animations/Animation - 1742988499597.json';
 
 
-    
+
 const Overview = () => {
     const defaultOptions = {
         loop: true,
         autoplay: true,
         animationData: animationData,
         rendererSettings: {
-          preserveAspectRatio: 'xMidYMid slice',
+            preserveAspectRatio: 'xMidYMid slice',
         }
     }
-    
+
     const [user, setUser] = useState(null);
     const [expenses, setExpenses] = useState([]);
     const [balance, setBalance] = useState(0);
@@ -42,6 +42,7 @@ const Overview = () => {
     const [selectedDay, setSelectedDay] = useState(null);
     const [selectedMonth, setSelectedMonth] = useState(null);
     const [selectedYear, setSelectedYear] = useState(null);
+    const [windowSize,setWindowSize]=useState(window.innerWidth);
 
     // Caricamento spese da local storage
     useEffect(() => {
@@ -161,7 +162,7 @@ const Overview = () => {
         }, {});
     };
 
-    
+
     const sortedExpenses = [...filteredExpenses].sort((a, b) => new Date(b.date) - new Date(a.date));
     const { revenues, outflows, totbalance } = statsByPeriod(filteredExpenses, period);
     const statsCategory = statsByCategory(filteredExpenses);
@@ -195,42 +196,53 @@ const Overview = () => {
     //richiesta permesso invio notifiche
     const requestNotificationPermission = async () => {
         if ("Notification" in window) {
-          const permission = await Notification.requestPermission();
-          if (permission === "granted") {
-            console.log("Notification permission granted.");
-          } else {
-            console.log("Notification permission denied.");
-          }
+            const permission = await Notification.requestPermission();
+            if (permission === "granted") {
+                console.log("Notification permission granted.");
+            } else {
+                console.log("Notification permission denied.");
+            }
         } else {
-          console.log("This browser does not support notifications.");
+            console.log("This browser does not support notifications.");
         }
-      };
-      
-      useEffect(() => {
+    };
+
+    useEffect(() => {
         requestNotificationPermission();
-      }, []);
+    }, []);
 
-      //Invio notifiche se il saldo è negativo
-      useEffect(() => {
+    //Invio notifiche se il saldo è negativo
+    useEffect(() => {
         if (totbalance < 0) {
-          console.log("Negative balance!");
-      
-          // Mostra notifica con toast
-          toast.error(`Balance alarm! Your balance is negative: ${totbalance} €`);
-      
-          // Mostra notifica di sistema se permesso
-          if (Notification.permission === "granted") {
-            new Notification("Balance Alarm", {
-              body: `Your balance is negative: ${totbalance} €`,
-              icon: logo 
-            });
-          }
-        }
-      }, [totbalance]);
-      
-      
+            console.log("Negative balance!");
 
-      return (
+            // Mostra notifica con toast
+            toast.error(`Balance alarm! Your balance is negative: ${totbalance} €`);
+
+            // Mostra notifica di sistema se permesso
+            if (Notification.permission === "granted") {
+                new Notification("Balance Alarm", {
+                    body: `Your balance is negative: ${totbalance} €`,
+                    icon: logo
+                });
+            }
+        }
+    }, [totbalance]);
+
+
+    useEffect( () => {
+        const handleResize = () => {
+            setWindowSize(window.innerWidth);
+        }
+        
+        window.addEventListener('resize',handleResize);
+
+        return () => {
+            window.removeEventListener('resize',handleResize);
+        };
+    },[]);
+
+    return (
         <>
             {user && <Navbar addNewExpense={addNewExpense} />}
 
@@ -251,9 +263,8 @@ const Overview = () => {
             </div>
 
             {!user ? (
-                <div id="intro-container">
-                          <Lottie options={defaultOptions} height={400} width={400} />
-
+                <div id="intro-container" >
+                    <Lottie options={defaultOptions} height={windowSize < 390 ? '250' : '400'} width={windowSize < 390 ? '250' : '400'} />
                     <h1 id="intro-title">PiggyPenny</h1>
                     <h2 id="intro-subtitle">Sign in and manage your wallet</h2>
                     <button id="continueGoogle" onClick={handleGoogleSignIn}>
