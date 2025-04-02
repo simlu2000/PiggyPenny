@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
+import { Button, Snackbar, Alert } from "@mui/material";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 const AddExpense = ({ AddNewExpense }) => {
     const [type, setType] = useState('');
@@ -8,17 +10,18 @@ const AddExpense = ({ AddNewExpense }) => {
     const [date, setDate] = useState('');
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('');
+    const [openSnackbar, setOpenSnackbar] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-    
+
         if (!amount || !date || !description || !type || !category) {
             alert("Fill all the data fields, please!");
             return;
         }
-    
+
         const correctedAmount = type === 'Outflows' ? -Math.abs(parseFloat(amount)) : Math.abs(parseFloat(amount));
-    
+
         const newExpense = {
             id: Date.now(),
             type,
@@ -27,17 +30,26 @@ const AddExpense = ({ AddNewExpense }) => {
             description,
             category,
         };
-    
+
         AddNewExpense(newExpense); // Passa la nuova spesa al componente padre
-    
+
         // Ripulisce i campi dopo l'invio
         setType('');
         setAmount('');
         setDate('');
         setDescription('');
         setCategory('');
+
+        // Mostra il feedback visivo
+        setOpenSnackbar(true);
     };
-    
+
+    const handleCloseSnackbar = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpenSnackbar(false);
+    };
 
     return (
         <div>
@@ -81,8 +93,17 @@ const AddExpense = ({ AddNewExpense }) => {
                     <input type="text" id="description" value={description} onChange={(e) => setDescription(e.target.value)} maxLength="25" required />
                 </div>
 
-                <button type="submit" id="add-btn"><FontAwesomeIcon icon={faAdd} /></button>
+                <Button type="submit" sx={{marginTop:'5%'}}variant="contained" color="secondary" startIcon={<FontAwesomeIcon icon={faAdd} />}>
+                    Add
+                </Button>
             </form>
+
+            <Snackbar open={openSnackbar} autoHideDuration={3000} onClose={handleCloseSnackbar} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+                <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+                    <CheckCircleIcon style={{ marginRight: '8px' }} />
+                    Expense added successfully!
+                </Alert>
+            </Snackbar>
         </div>
     );
 };

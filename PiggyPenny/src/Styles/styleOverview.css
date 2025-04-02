@@ -73,7 +73,9 @@
   padding: 0;
 
 }
-
+#category,#type,#date{
+  background-color: #ffffff;
+}
 #add label {
   font-size: 1.3rem;
   margin-left: 0;
