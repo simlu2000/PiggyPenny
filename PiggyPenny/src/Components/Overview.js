@@ -279,20 +279,7 @@ const Overview = () => {
                     {expenses.length > 0 ? (
                         <>
                             <h2 id="text-overview" className="title">Overview</h2>
-                            <button
-                                style={{
-                                    margin: '1rem',
-                                    padding: '0.5rem 1rem',
-                                    backgroundColor: '#6C63FF',
-                                    color: '#fff',
-                                    border: 'none',
-                                    borderRadius: '8px',
-                                    cursor: 'pointer'
-                                }}
-                                onClick={() => navigate('/profile')}
-                            >
-                                Your profile
-                            </button>
+                            
                             <div className="user-situation">
                                 <LinesChart expenses={filteredExpenses} />
                                 <PieChart statsCategory={statsCategory} />

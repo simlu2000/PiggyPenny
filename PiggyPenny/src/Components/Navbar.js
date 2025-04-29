@@ -42,7 +42,8 @@ const Navbar = ({ addNewExpense }) => {
         <>
             <header className="navbar">
                 {user? (
-                    <div id="nav-text"><img id="logo" src={logo} /> Hi {user.displayName}</div>
+                    <div id="nav-text"><img id="logo" src={logo} onClick={() => navigate('/UserProfile')}/> Hi {user.displayName} </div>
+                    
                 ): (
                     <div id="nav-text"><img id="logo" src={logo} /> Hi, you are not logged</div>
                 )}
