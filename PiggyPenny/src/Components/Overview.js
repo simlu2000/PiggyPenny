@@ -330,6 +330,20 @@ const Overview = () => {
                                 </div>
                             </div>
 
+                            <button
+                                style={{
+                                    margin: '1rem',
+                                    padding: '0.5rem 1rem',
+                                    backgroundColor: '#6C63FF',
+                                    color: '#fff',
+                                    border: 'none',
+                                    borderRadius: '8px',
+                                    cursor: 'pointer'
+                                }}
+                                onClick={() => navigate('/profile')}
+                            >
+                                Your profile
+                            </button>
                             <TableContainer component={Paper}>
                                 <Table id="exp-table">
                                     <TableHead>
