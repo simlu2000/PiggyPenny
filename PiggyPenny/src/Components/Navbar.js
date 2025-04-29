@@ -41,10 +41,11 @@ const Navbar = ({ addNewExpense }) => {
     return (
         <>
             <header className="navbar">
-                {user? (
-                    <div id="nav-text"><img id="logo" src={logo} onClick={() => navigate('/UserProfile')}/> Hi {user.displayName} </div>
-                    
-                ): (
+                {user ? (
+                    <Link to="/UserProfile" id="nav-text" style={{ textDecoration: "none", color: "inherit" }}>
+                        <img id="logo" src={logo} alt="logo" /> Hi {user.displayName}
+                    </Link>
+                ) : (
                     <div id="nav-text"><img id="logo" src={logo} /> Hi, you are not logged</div>
                 )}
                 <div>
