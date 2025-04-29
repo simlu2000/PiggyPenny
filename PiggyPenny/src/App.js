@@ -5,6 +5,7 @@ import './Styles/styleNavbar.css';
 import AddExpense from './Components/AddExpense';
 import Overview from './Components/Overview';
 import Navbar from "./Components/Navbar";
+import UserProfile from "./Components/UserProfile";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const App = () => {
@@ -20,6 +21,7 @@ const App = () => {
       <div className="App">
         <Routes>
           <Route path="/" element={<Overview expenses={expenses} />} />
+          <Route path="/UserProfile" element={<UserProfile/>} />
         </Routes>
       </div>
     </BrowserRouter>
