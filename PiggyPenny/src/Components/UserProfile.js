@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged, deleteUser } from "firebase/auth";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import "./UserProfile.css"; // puoi creare uno stile separato o usare inline
 
 const UserProfile = () => {
   const [user, setUser] = useState(null);
