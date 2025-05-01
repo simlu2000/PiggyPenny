@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRectangleXmark, faPlus, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import AddExpense from './AddExpense';
-import 'reactjs-popup/dist/index.css';
-import Popup from "reactjs-popup";
-import { onAuthStateChanged } from "firebase/auth";
-import { signOut } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../Utils/firebaseConfig";
-import logo from '../Utils/logo-48x48.png'
+import logo from '../Utils/logo-48x48.png';
 
 const Navbar = ({ addNewExpense }) => {
-    const [popupOpen, setPopupOpen] = useState(false);
+    const [dialogOpen, setDialogOpen] = useState(false);
     const [user, setUser] = useState(null);
     const navigate = useNavigate();
 
@@ -49,7 +46,7 @@ const Navbar = ({ addNewExpense }) => {
                     <div id="nav-text"><img id="logo" src={logo} /> Hi, you are not logged</div>
                 )}
                 <div>
-                    <button className="nav-btn" onClick={() => setPopupOpen(true)}>
+                    <button className="nav-btn" onClick={() => setDialogOpen(true)}>
                         <FontAwesomeIcon icon={faPlus} />
                     </button>
                     {user && (
@@ -60,19 +57,8 @@ const Navbar = ({ addNewExpense }) => {
                 </div>
             </header>
 
-            {/* Popup che contiene il form per aggiungere spesa */}
-            <Popup
-                className="popup"
-                open={popupOpen}
-                onClose={() => setPopupOpen(false)}
-                modal closeOnDocumentClick
-                contentStyle={{ backgroundColor: '#E2E3F4', height: '45%', minWidth: '70%', maxWidth: '100%', maxHeight: '90vh' }}
-            >
-                <button className="close-popup" onClick={() => setPopupOpen(false)}>
-                    <FontAwesomeIcon icon={faRectangleXmark} />
-                </button>
-                <AddExpense AddNewExpense={addNewExpense} />
-            </Popup>
+            {/* Dialog spesa */}
+            <AddExpense openDialog={dialogOpen} setOpenDialog={setDialogOpen} AddNewExpense={addNewExpense} />
         </>
     );
 };

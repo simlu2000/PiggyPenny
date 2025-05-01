@@ -1,111 +1,177 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
-import { Button, Snackbar, Alert } from "@mui/material";
+import {
+  Snackbar,
+  Alert,
+  Dialog,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Slide,
+  Box,
+  TextField,
+  MenuItem,
+  Button,
+} from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
-const AddExpense = ({ AddNewExpense }) => {
-    const [type, setType] = useState('');
-    const [amount, setAmount] = useState('');
-    const [date, setDate] = useState('');
-    const [description, setDescription] = useState('');
-    const [category, setCategory] = useState('');
-    const [openSnackbar, setOpenSnackbar] = useState(false);
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+const AddExpense = ({ AddNewExpense, openDialog, setOpenDialog }) => {
+  const [type, setType] = useState('');
+  const [amount, setAmount] = useState('');
+  const [date, setDate] = useState('');
+  const [description, setDescription] = useState('');
+  const [category, setCategory] = useState('');
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
-        if (!amount || !date || !description || !type || !category) {
-            alert("Fill all the data fields, please!");
-            return;
-        }
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-        const correctedAmount = type === 'Outflows' ? -Math.abs(parseFloat(amount)) : Math.abs(parseFloat(amount));
+    if (!amount || !date || !description || !type || !category) {
+      alert("Fill all the data fields, please!");
+      return;
+    }
 
-        const newExpense = {
-            id: Date.now(),
-            type,
-            amount: correctedAmount,
-            date,
-            description,
-            category,
-        };
+    const correctedAmount = type === 'Outflows' ? -Math.abs(parseFloat(amount)) : Math.abs(parseFloat(amount));
 
-        AddNewExpense(newExpense); // Passa la nuova spesa al componente padre
-
-        // Ripulisce i campi dopo l'invio
-        setType('');
-        setAmount('');
-        setDate('');
-        setDescription('');
-        setCategory('');
-
-        // Mostra il feedback visivo
-        setOpenSnackbar(true);
+    const newExpense = {
+      id: Date.now(),
+      type,
+      amount: correctedAmount,
+      date,
+      description,
+      category,
     };
 
-    const handleCloseSnackbar = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-        setOpenSnackbar(false);
-    };
+    AddNewExpense(newExpense);
 
-    return (
-        <div>
-            <form id="add" onSubmit={handleSubmit}>
-                <div className="field-area">
-                    <label htmlFor="type">Type: </label>
-                    <select id="type" value={type} onChange={(e) => setType(e.target.value)}>
-                        <option value="">Select + or -</option>
-                        <option value="Revenue">+</option>
-                        <option value="Outflows">-</option>
-                    </select>
-                </div>
+    // Reset campi
+    setType('');
+    setAmount('');
+    setDate('');
+    setDescription('');
+    setCategory('');
+    setOpenDialog(false);
+    setOpenSnackbar(true);
+  };
 
-                <div className="field-area">
-                    <label htmlFor="amount">Amount: </label>
-                    <input type="number" id="amount" value={amount} onChange={(e) => setAmount(e.target.value)} required />
-                </div>
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') return;
+    setOpenSnackbar(false);
+  };
 
-                <div className="field-area">
-                    <label htmlFor="category">Category: </label>
-                    <select id="category" value={category} onChange={(e) => setCategory(e.target.value)}>
-                        <option value="">Select Category</option>
-                        <option value="Car">Car</option>
-                        <option value="Rent">Rent</option>
-                        <option value="Utilities">Utilities</option>
-                        <option value="Entertainment">Entertainment</option>
-                        <option value="Health">Health</option>
-                        <option value="Travel">Travel</option>
-                        <option value="Salary">Salary</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
+  return (
+    <>
+      <Dialog
+        fullScreen
+        open={openDialog}
+        onClose={() => setOpenDialog(false)}
+        TransitionComponent={Transition}
+      >
+        <AppBar sx={{ position: 'relative', bgcolor:'#9c24b4'}}>
+          <Toolbar >
+            <IconButton
+              edge="start"
+              color="inherit"
+              onClick={() => setOpenDialog(false)}
+              aria-label="close"
+            >
+              <CloseIcon />
+            </IconButton>
+            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+              Add New Expense
+            </Typography>
+          </Toolbar>
+        </AppBar>
 
-                <div className="field-area">
-                    <label htmlFor="date">Date: </label>
-                    <input type="date" id="date" value={date} onChange={(e) => setDate(e.target.value)} required />
-                </div>
+        <Box
+          component="form"
+          onSubmit={handleSubmit}
+          sx={{
+            p: 4,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 3,
+            maxWidth: '90vw', 
+            width: '100%',
+            mx: 'auto',
+            mt: 5,
+          }}
+        >
+          <TextField
+            select
+            label="Type"
+            value={type}
+            onChange={(e) => setType(e.target.value)}
+            fullWidth
+            required
+          >
+            <MenuItem value="">Select + or -</MenuItem>
+            <MenuItem value="Revenue">+</MenuItem>
+            <MenuItem value="Outflows">-</MenuItem>
+          </TextField>
 
-                <div className="field-area">
-                    <label htmlFor="description">Description: </label>
-                    <input type="text" id="description" value={description} onChange={(e) => setDescription(e.target.value)} maxLength="25" required />
-                </div>
+          <TextField
+            type="number"
+            label="Amount"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            fullWidth
+            required
+          />
 
-                <Button type="submit" sx={{marginTop:'5%'}}variant="contained" color="secondary" startIcon={<FontAwesomeIcon icon={faAdd} />}>
-                    Add
-                </Button>
-            </form>
+          <TextField
+            select
+            label="Category"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            fullWidth
+            required
+          >
+            {["Car", "Rent", "Utilities", "Entertainment", "Health", "Travel", "Salary", "Other"].map((cat) => (
+              <MenuItem key={cat} value={cat}>{cat}</MenuItem>
+            ))}
+          </TextField>
 
-            <Snackbar open={openSnackbar} autoHideDuration={3000} onClose={handleCloseSnackbar} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
-                <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
-                    <CheckCircleIcon style={{ marginRight: '8px' }} />
-                    Expense added successfully!
-                </Alert>
-            </Snackbar>
-        </div>
-    );
+          <TextField
+            type="date"
+            label="Date"
+            InputLabelProps={{ shrink: true }}
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            fullWidth
+            required
+          />
+
+          <TextField
+            label="Description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            fullWidth
+            inputProps={{ maxLength: 25 }}
+            required
+          />
+
+          <Button type="submit" variant="contained" color="secondary" startIcon={<FontAwesomeIcon icon={faAdd} />}>
+            Add
+          </Button>
+        </Box>
+      </Dialog>
+
+      <Snackbar open={openSnackbar} autoHideDuration={3000} onClose={handleCloseSnackbar} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+        <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+          <CheckCircleIcon sx={{ mr: 1 }} />
+          Expense added successfully!
+        </Alert>
+      </Snackbar>
+    </>
+  );
 };
 
 export default AddExpense;

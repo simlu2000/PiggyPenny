@@ -166,7 +166,7 @@ select {
   box-shadow: 1px 1px 1px 1px #E2E3F4;
   background-color: #FFFFFF;
   border-radius: 25px;
-  max-width: 90%;
+  max-width: 90vw;
   margin-left: 5%;
   margin-right: 5%;
   margin-top: 15px;
@@ -543,9 +543,16 @@ color:#ffffff;
   }
 
   #pie {
-    margin-left: 0;
+    margin-left: 8%;
+
   }
 
+  #lines {
+    width: 90%;
+  }
+  #exp-table{
+    max-width: 99vw;
+  }
 }
 
 @media (max-width: 481px) {
