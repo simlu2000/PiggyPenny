@@ -15,20 +15,17 @@ import BarsChart from "./BarsCharts";
 import logo from '../Utils/logo-192x192.png'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Lottie from 'react-lottie';
-import animationData from '../animations/Animation - 1742988499597.json';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-
+import OnBoardingSlider from "./OnBoardingSlider";
+import { Button } from '@mui/material';
+import GoogleIcon from '@mui/icons-material/Google';
 
 const Overview = () => {
-    const defaultOptions = {
-        loop: true,
-        autoplay: true,
-        animationData: animationData,
-        rendererSettings: {
-            preserveAspectRatio: 'xMidYMid slice',
-        }
-    }
+    const steps = [
+        { title: "Track your spending", desc: "Keep an eye on where your money goes." },
+        { title: "Visualize with charts", desc: "Pie and bar charts to analyze trends." },
+        { title: "Safe and private", desc: "All data stays in your browser." },
+    ];
 
     const [user, setUser] = useState(null);
     const [expenses, setExpenses] = useState([]);
@@ -263,23 +260,34 @@ const Overview = () => {
             </div>
 
             {!user ? (
+
                 <div id="intro-container" >
-                    <Lottie options={defaultOptions} height={windowSize < 390 ? '250' : '400'} width={windowSize < 390 ? '250' : '400'} />
                     <h1 id="intro-title">PiggyPenny</h1>
-                    <h2 id="intro-subtitle">Sign in and manage your wallet</h2>
-                    <button id="continueGoogle" onClick={handleGoogleSignIn}>
-                        <p>
-                            <FontAwesomeIcon icon={faGoogle} style={{ color: "#FFFFFF" }} />
-                            &nbsp;Continue with Google
-                        </p>
-                    </button>
+                    <OnBoardingSlider />
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        startIcon={<GoogleIcon />} 
+                        onClick={handleGoogleSignIn}
+                        sx={{
+                            color: '#fff',
+                            '&:hover': {
+                                backgroundColor: '#357AE8',
+                            },
+                            marginTop: 5,
+                            padding: '10px 20px',
+                            fontSize: '1rem'
+                        }}
+                    >
+                        Accedi con Google
+                    </Button>
                 </div>
             ) : (
                 <>
                     {expenses.length > 0 ? (
                         <>
                             <h2 id="text-overview" className="title">Overview</h2>
-                            
+
                             <div className="user-situation">
                                 <LinesChart expenses={filteredExpenses} />
                                 <PieChart statsCategory={statsCategory} />
@@ -331,7 +339,7 @@ const Overview = () => {
                                 </div>
                             </div>
 
-                           
+
                             <TableContainer component={Paper}>
                                 <Table id="exp-table">
                                     <TableHead>
