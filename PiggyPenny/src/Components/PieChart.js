@@ -10,7 +10,7 @@ const PieChart = ({ statsCategory }) => {
     // Funzione per aggiornare la larghezza del chart in base alla dimensione della finestra
     const handleResize = () => {
       if (window.innerWidth < 600) {
-        setChartWidth(300);
+        setChartWidth(350);
       } else {
         setChartWidth(350);
       }

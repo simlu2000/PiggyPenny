@@ -1,9 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { auth } from "../Utils/firebaseConfig";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { onAuthStateChanged, deleteUser } from "firebase/auth";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import Navbar from "./Navbar";
+
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  Button,
+  Box,
+  Container,
+} from "@mui/material";
 
 const UserProfile = () => {
   const [user, setUser] = useState(null);
@@ -15,7 +26,7 @@ const UserProfile = () => {
         setUser(currentUser);
       } else {
         setUser(null);
-        navigate("/"); // se non autenticato, rimanda alla home
+        navigate("/");
       }
     });
 
@@ -46,20 +57,49 @@ const UserProfile = () => {
   };
 
   return (
-    <div className="user-profile-container">
+    <>
+      {user && <Navbar />}
       <ToastContainer />
-      <h2>User Profile</h2>
-      {user && (
-        <div className="profile-info">
-          <p><strong>Name:</strong> {user.displayName}</p>
-          <p><strong>Email:</strong> {user.email}</p>
-          <img src={user.photoURL} alt="Profile" width={100} style={{ borderRadius: "50%" }} />
-          <button className="delete-button" onClick={handleDeleteAccount}>
-            Delete Account
-          </button>
-        </div>
-      )}
-    </div>
+      <Container maxWidth="sm" sx={{ mt: 4 }}>
+        {user && (
+          <Card sx={{ boxShadow: 3, borderRadius: 3 }}>
+            {user.photoURL && (
+              <CardMedia
+                component="img"
+                image={user.photoURL}
+                alt="Profile"
+                sx={{
+                  height: 200,
+                  width: 200,
+                  objectFit: "cover",
+                  borderRadius: "50%",
+                  mx: "auto",
+                  mt: 2,
+                }}
+              />
+            )}
+            <CardContent>
+              <Typography variant="h5" component="div" gutterBottom align="center">
+                {user.displayName || "No Name"}
+              </Typography>
+              <Typography variant="body1" color="text.secondary" align="center">
+                {user.email}
+              </Typography>
+
+              <Box mt={3} display="flex" justifyContent="center">
+                <Button
+                  variant="contained"
+                  color="error"
+                  onClick={handleDeleteAccount}
+                >
+                  Delete Account
+                </Button>
+              </Box>
+            </CardContent>
+          </Card>
+        )}
+      </Container>
+    </>
   );
 };
 

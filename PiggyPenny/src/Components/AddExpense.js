@@ -98,8 +98,8 @@ const AddExpense = ({ AddNewExpense, openDialog, setOpenDialog }) => {
             display: 'flex',
             flexDirection: 'column',
             gap: 3,
-            maxWidth: '90vw', 
-            width: '100%',
+            maxWidth: '80vw', 
+            width: '80%',
             mx: 'auto',
             mt: 5,
           }}

@@ -267,7 +267,7 @@ const Overview = () => {
                     <Button
                         variant="contained"
                         color="secondary"
-                        startIcon={<GoogleIcon />} 
+                        startIcon={<GoogleIcon />}
                         onClick={handleGoogleSignIn}
                         sx={{
                             color: '#fff',
@@ -304,7 +304,14 @@ const Overview = () => {
                                     open={popupOpen}
                                     onClose={() => setPopupOpen(false)}
                                     modal closeOnDocumentClick
-                                    contentStyle={{ backgroundColor: '#E2E3F4', height: 'auto', minWidth: '80%', maxWidth: '90%', maxHeight: '80vh', overflowY: 'auto' }}
+                                    contentStyle={{ 
+                                        backgroundColor: '#E2E3F4', 
+                                        height: 'auto', 
+                                        minWidth: '80%', 
+                                        maxWidth: '90%', 
+                                        maxHeight: '80vh', 
+                                        overflowY: 'auto' 
+                                    }}
                                 >
                                     <button className="close-popup" onClick={() => setPopupOpen(false)}>
                                         <FontAwesomeIcon icon={faRectangleXmark} />
@@ -344,11 +351,11 @@ const Overview = () => {
                                 <Table id="exp-table">
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell>+/-</TableCell>
-                                            <TableCell>Category</TableCell>
-                                            <TableCell>Amount</TableCell>
-                                            <TableCell>Date</TableCell>
-                                            <TableCell>Description</TableCell>
+                                            <TableCell>📊</TableCell> 
+                                            <TableCell>🏷️</TableCell> 
+                                            <TableCell>💰</TableCell>
+                                            <TableCell>📅</TableCell>
+                                            <TableCell>📝</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>

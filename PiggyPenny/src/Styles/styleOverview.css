@@ -13,13 +13,12 @@
 }
 
 #lines {
-  border-radius: 25px;
-  box-shadow: 1px 1px 1px 1px #E2E3F4;
   height: 400px;
 }
 
 #pie {
   margin-left: 10%;
+  text-align:center;
 }
 
 #bars {
@@ -210,40 +209,124 @@ th+th {
   color: #0a7e15;
 }
 
-.edit-form {
-  margin-bottom: 5%;
-  width: auto;
-  margin-left: 5%;
-  margin-right: 5%;
-  border-radius: 25px;
+/* Popup container */
+.popup-content {
+  background: linear-gradient(to right, #dbeafe, #e0e7ff);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease-in-out;
+  position: relative;
+  width: 90%;
+  max-width: 600px;
+  margin: 5vh auto;
+  box-sizing: border-box;
+}
 
+/* Animazione apertura */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Form layout */
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  width: auto;
+  margin-right:5%;
+  margin-left:5%;
+  box-sizing: border-box;
+}
+
+.edit-form h2 {
+  font-size: 2rem;
+  color: #1e3a8a;
+  text-align: center;
+  margin-bottom: 1rem;
 }
 
 .edit-form input {
-  border-radius: 25px;
-  border: 2px solid #E2E3F4;
-  height: 25px;
-  margin: 1%;
-  font-size: 1.5rem;
+  border-radius: 12px;
+  border: 1.5px solid #c7d2fe;
+  padding: 0.8rem 1rem;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.edit-form label {
-  font-size: 1.5rem;
+.edit-form input:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
 }
 
-.btn-exp {
-  font-size: 1.5rem;
+.save-edit {
+  font-size: 1.2rem;
+  border-radius: 15px;
+  background-color: #10b981;
+  border: none;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  margin-top: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.3s ease;
 }
 
-/* edit expense area*/
-.save-edit{
-font-size: 1.5rem;
-border-radius: 25px;
-margin-top:25%;
-background-color: #000000;
-border:none;
-color:#ffffff;
+.save-edit:hover {
+  background-color: #059669;
+  cursor: pointer;
 }
+
+.close-popup {
+  background: transparent;
+  border: none;
+  font-size: 1.8rem;
+  color: #6b7280;
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close-popup:hover {
+  color: #111827;
+}
+
+@media (max-width: 480px) {
+  .popup-content {
+    padding: 1.5rem;
+    margin: 2vh auto;
+  }
+
+  .edit-form h2 {
+    font-size: 1.5rem;
+  }
+
+  .edit-form input {
+    font-size: 1rem;
+  }
+
+  .save-edit {
+    font-size: 1rem;
+    padding: 0.6rem 1.2rem;
+  }
+}
+
+
 /*-----------------------Charts area------------------*/
 #text-no-expenses{
   color:#FFFFFF;
@@ -297,6 +380,9 @@ color:#ffffff;
 
   #data-area {
     width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   #lines {
@@ -306,8 +392,8 @@ color:#ffffff;
   }
 
   #pie {
-    margin-left: 15%;
-    margin-right: 15%;
+    margin-left: auto; 
+    margin-right: auto; 
     width: auto;
   }
 
@@ -441,6 +527,10 @@ color:#ffffff;
     margin-left: 10%;
     margin-top: 4%;
   }
+  #pie {
+    margin-left: auto; 
+    margin-right: auto;
+  }
 
 }
 
@@ -531,6 +621,7 @@ color:#ffffff;
   .user-situation {
     flex-direction: column;
     padding:45px;
+    padding:15px;
   }
 
   .user-container {
@@ -540,24 +631,18 @@ color:#ffffff;
 
   #data-area {
     margin-top: 5%;
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
   }
-
   #pie {
-    margin-left: 8%;
-
+    margin-left: auto; 
+    margin-right: auto;
   }
-
   #lines {
     width: 90%;
   }
   #exp-table{
     max-width: 99vw;
   }
-}
-
-@media (max-width: 481px) {
-  .user-situation {
-    padding:15px;
-  }
-
 }
