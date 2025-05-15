@@ -34,15 +34,10 @@ PWA (Progressive Web App)
 📱 PWA installabile direttamente dal browser: usa l’app anche offline!
 
 📦 Installazione locale
-bash
-Copia
-Modifica
 git clone https://github.com/tuo-username/piggypenny.git
 cd piggypenny
 npm install
 npm start
+
 🛠️ Build per produzione
-bash
-Copia
-Modifica
 npm run build
